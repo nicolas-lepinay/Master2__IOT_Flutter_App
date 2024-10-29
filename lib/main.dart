@@ -2,7 +2,7 @@ import 'package:arduino_iot_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:arduino_iot_app/widgets/counter_page.dart';
-import 'package:arduino_iot_app/cubits/counter_cubit.dart';
+import 'package:arduino_iot_app/store/counter_cubit.dart';
 import 'package:arduino_iot_app/router/router.dart';
 
 // Externes
@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.interTextTheme(
           Theme.of(context).textTheme,
         ),
-        scaffoldBackgroundColor: Constants.lightestGrey,
+        scaffoldBackgroundColor: Constants.lightGrey,
       ),
       //home: const MyHomePage(title: "Test avec Cubit"),
       routerConfig: router,

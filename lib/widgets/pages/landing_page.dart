@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:arduino_iot_app/utils/constants.dart';
-import 'package:arduino_iot_app/widgets/components/heading1.dart';
-import 'package:arduino_iot_app/widgets/components/text_body.dart';
-import 'package:arduino_iot_app/widgets/components/ui_text_field.dart';
-import 'package:arduino_iot_app/widgets/components/animated_background.dart';
-import 'package:arduino_iot_app/widgets/components/ui_button.dart';
+import 'package:arduino_iot_app/widgets/components/typography/h1.dart';
+import 'package:arduino_iot_app/widgets/components/typography/text_body.dart';
+import 'package:arduino_iot_app/widgets/components/textfields/ui_text_field.dart';
+import 'package:arduino_iot_app/widgets/components/layout/animated_background.dart';
+import 'package:arduino_iot_app/widgets/components/buttons/ui_button.dart';
 import 'package:go_router/go_router.dart';
 
 class LandingPage extends StatelessWidget {
@@ -29,7 +29,7 @@ class LandingPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const SizedBox(height: 20),
-                    const Heading1(text: Constants.landing__title),
+                    const H1(text: Constants.landing__title),
                     //const SizedBox(height: 20),
                     //const TextBody(text: Constants.landing__description),
                     const SizedBox(height: 40),

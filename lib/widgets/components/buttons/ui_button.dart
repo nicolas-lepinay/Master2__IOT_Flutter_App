@@ -5,13 +5,13 @@ import 'package:arduino_iot_app/utils/constants.dart';
 class UIButton extends StatelessWidget {
   final String label;
   final VoidCallback callback;
-  final bool? isLoading;
+  final bool isLoading;
 
   const UIButton({
     super.key,
     required this.label,
     required this.callback,
-    this.isLoading,
+    this.isLoading = false,
   });
 
   @override
@@ -29,7 +29,7 @@ class UIButton extends StatelessWidget {
         shadowColor: Constants.tomato.withOpacity(0.5), // Couleur de l'ombre
       ),
       onPressed: callback,
-      child: isLoading ?? false
+      child: isLoading
           ? const SizedBox(
               height: 18,
               width: 18,

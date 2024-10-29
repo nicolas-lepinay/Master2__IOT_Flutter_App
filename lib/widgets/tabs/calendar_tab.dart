@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:arduino_iot_app/cubits/counter_cubit.dart';
+import 'package:arduino_iot_app/store/counter_cubit.dart';
 
 class CalendarTab extends StatelessWidget {
   const CalendarTab({super.key});

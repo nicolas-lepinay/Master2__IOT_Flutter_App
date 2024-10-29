@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 class ColourFilter extends StatelessWidget {
-  final double? brightness;
-  final double? saturation;
+  final double brightness;
+  final double saturation;
   final Widget child;
 
   const ColourFilter({
     super.key,
-    this.brightness,
-    this.saturation,
+    this.brightness = 1,
+    this.saturation = 1,
     required this.child,
   });
 
@@ -18,12 +18,12 @@ class ColourFilter extends StatelessWidget {
     return ColorFiltered(
       colorFilter:
           ColorFilter.matrix(ColorFilterGenerator.brightnessAdjustMatrix(
-        value: brightness ?? 1,
+        value: brightness,
       )),
       child: ColorFiltered(
         colorFilter:
             ColorFilter.matrix(ColorFilterGenerator.saturationAdjustMatrix(
-          value: saturation ?? 1,
+          value: saturation,
         )),
         child: child,
       ),

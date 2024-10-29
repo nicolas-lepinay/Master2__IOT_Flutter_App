@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:arduino_iot_app/utils/constants.dart';
 
-class TextBody extends StatelessWidget {
+class H3 extends StatelessWidget {
   final String text;
-  final TextAlign? textAlign;
+  final TextAlign textAlign;
 
-  const TextBody({
+  const H3({
     super.key,
     required this.text,
-    this.textAlign,
+    this.textAlign = TextAlign.center,
   });
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
-      textAlign: textAlign ?? TextAlign.justify,
+      textAlign: textAlign,
       style: const TextStyle(
-        color: Constants.darkestGrey,
+        color: Constants.eggplant,
         fontSize: 16,
+        fontWeight: FontWeight.w900,
       ),
     );
   }

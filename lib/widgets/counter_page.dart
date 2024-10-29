@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../cubits/counter_cubit.dart';
+import '../store/counter_cubit.dart';
 
 class CounterPage extends StatelessWidget {
   const CounterPage({super.key});
