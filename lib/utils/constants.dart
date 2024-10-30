@@ -11,18 +11,31 @@ class Constants {
 
   // COLOURS
   // ---- GREYS
+  /*
   static const Color darkestGrey = Color(0xFF1F252F);
   static const Color darkGrey = Color(0xFFB7B4BB);
   static const Color neutralGrey = Color(0xFFE1E5E8);
   static const Color lightGrey = Color(0xFFF5F4F4);
   static const Color lightestGrey = Color(0xFFF7F8FA);
   static const Color offWhite = Color(0xFFF7F8FA);
+  */
+  // ---- GREYS v2
+  static const Color black = Color(0xFF000000);
+  static const Color darkest = Color(0xFF373248); // Formely "eggplant"
+  static const Color darker = Color(0xFF47516B);
+  static const Color dark = Color(0xFF79819A);
+  static const Color neutral = Color(0xFFAEB7D3);
+  static const Color light = Color(0xFFD9DFE8); // ou 0xFFACB1C3
+  static const Color lighter = Color(0xFFE2E6EE);
+  static const Color lightest = Color(0xFFF7F9FC);
+  static const Color lightest2 = Color(0xFFF7F9FC); // équivalent à offWhite
+  static const Color white = Color(0xFFFFFFFF);
 
   // ---- COLOURFUL
-  static const Color eggplant = Color(0xFF373248);
   static const Color tomato = Color(0xFFFB6A68);
   static const Color lilac = Color(0xFFD796FC);
   static const Color periwinkle = Color(0xFF8A8EEF);
+  static const Color pickle = Color(0xFF96DD6F);
 
   // MEASURES
   static const double paddingMedium = 30;

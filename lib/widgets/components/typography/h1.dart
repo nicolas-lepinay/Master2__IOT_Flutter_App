@@ -17,7 +17,7 @@ class H1 extends StatelessWidget {
       text,
       textAlign: textAlign,
       style: const TextStyle(
-        color: Constants.eggplant,
+        color: Constants.darkest,
         fontSize: 30,
         fontWeight: FontWeight.w900,
       ),

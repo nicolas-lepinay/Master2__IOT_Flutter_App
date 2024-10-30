@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.interTextTheme(
           Theme.of(context).textTheme,
         ),
-        scaffoldBackgroundColor: Constants.lightGrey,
+        scaffoldBackgroundColor: Constants.lightest,
       ),
       //home: const MyHomePage(title: "Test avec Cubit"),
       routerConfig: router,

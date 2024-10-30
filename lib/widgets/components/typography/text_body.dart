@@ -17,7 +17,7 @@ class TextBody extends StatelessWidget {
       text,
       textAlign: textAlign,
       style: const TextStyle(
-        color: Constants.darkestGrey,
+        color: Constants.darkest,
         fontSize: 16,
       ),
     );

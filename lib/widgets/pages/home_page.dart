@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:arduino_iot_app/utils/constants.dart';
 import 'package:arduino_iot_app/widgets/components/layout/animated_background.dart';
 import 'package:arduino_iot_app/widgets/components/headers/app_bar_actions.dart';
 import 'package:arduino_iot_app/widgets/components/typography/h2.dart';
@@ -6,9 +7,8 @@ import 'package:arduino_iot_app/widgets/components/typography/h3.dart';
 import 'package:arduino_iot_app/widgets/components/typography/caption.dart';
 import 'package:arduino_iot_app/widgets/components/buttons/animated_buttons_bar.dart';
 import 'package:arduino_iot_app/widgets/components/misc/localization.dart';
-import 'package:arduino_iot_app/utils/constants.dart';
-
-import 'package:arduino_iot_app/widgets/components/buttons/animated_card.dart';
+import 'package:arduino_iot_app/widgets/components/buttons/animated_card/animated_card.dart';
+import 'package:arduino_iot_app/widgets//components/buttons/animated_card/animated_card_content.dart';
 import 'package:arduino_iot_app/widgets/components/misc/example_card.dart';
 
 class HomePage extends StatelessWidget {
@@ -28,15 +28,15 @@ class HomePage extends StatelessWidget {
                 const SizedBox(height: 30),
                 const H2(text: Constants.home__title),
                 const SizedBox(height: 5),
-                const Localization(),
+                const Localization(location: 'Pertuis, France'),
                 const SizedBox(height: 30),
                 AnimatedButtonsBar(
                   outerPadding: Constants.paddingMedium,
-                  tabNames: const ["Extérieur", "Salon", "Chambre"],
+                  tabNames: const ["Extérieur", "RDC", "Étage"],
                   onTabSelected: [
                     () => print("Extérieur selected"),
-                    () => print("Salon selected"),
-                    () => print("Chambre selected"),
+                    () => print("RDC selected"),
+                    () => print("Étage selected"),
                   ],
                 ),
                 const Padding(
@@ -49,20 +49,20 @@ class HomePage extends StatelessWidget {
                       Spacer(),
                       Caption(
                         text: "1 sur 5",
-                        color: Constants.darkGrey,
+                        color: Constants.neutral,
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 50),
                 AnimatedCard(
-                  width: MediaQuery.of(context).size.width - (80 * 2),
-                  ratio: 1.25,
+                  width: MediaQuery.of(context).size.width - (70 * 2),
+                  ratio: 1.2,
                   initialPosition: true,
                   onDoubleTap: () {
-                    return true;
+                    return false;
                   },
-                  body: const ExampleCard(),
+                  body: const AnimatedCardContent(),
                 ),
               ],
             ),

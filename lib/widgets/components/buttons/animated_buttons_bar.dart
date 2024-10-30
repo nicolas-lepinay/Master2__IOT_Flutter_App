@@ -45,7 +45,7 @@ class _AnimatedButtonsBarState extends State<AnimatedButtonsBar> {
       width: double.infinity,
       height: containerHeight,
       decoration: BoxDecoration(
-        color: Constants.lightGrey.withOpacity(0.3),
+        color: Constants.lightest2.withOpacity(0.3),
         borderRadius: BorderRadius.circular(30),
       ),
       child: Padding(
@@ -109,7 +109,8 @@ class _AnimatedButtonsBarState extends State<AnimatedButtonsBar> {
             style: TextStyle(
               fontSize: 14, // Default, 14
               fontWeight: FontWeight.w900,
-              color: selectedIndex == index ? Colors.white : Colors.black,
+              color:
+                  selectedIndex == index ? Constants.white : Constants.darkest,
             ),
           ),
         ),

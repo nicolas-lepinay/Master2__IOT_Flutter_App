@@ -17,12 +17,12 @@ class RoundAvatarButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CircleAvatar(
       //backgroundColor: Constants.darkGrey.withOpacity(0.3),
-      backgroundColor: Constants.lightGrey,
+      backgroundColor: Constants.lightest,
       radius: radius,
       child: CircleAvatar(
         backgroundImage: NetworkImage(avatar),
         //backgroundColor: Constants.lightestGrey,
-        backgroundColor: Constants.lightGrey,
+        backgroundColor: Constants.lightest,
         radius: radius - 1,
       ),
     );

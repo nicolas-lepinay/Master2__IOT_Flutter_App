@@ -4,20 +4,25 @@ import 'package:arduino_iot_app/widgets/components/typography/caption.dart';
 import 'package:arduino_iot_app/utils/constants.dart';
 
 class Localization extends StatelessWidget {
-  const Localization({super.key});
+  final String location;
+
+  const Localization({
+    super.key,
+    required this.location,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       children: [
-        Icon(
+        const Icon(
           Icons.location_pin,
           size: 20,
           color: Constants.periwinkle,
         ),
-        SizedBox(width: 5.0),
+        const SizedBox(width: 5.0),
         Caption(
-          text: 'Pertuis, France',
+          text: location,
           color: Constants.periwinkle,
         ),
       ],

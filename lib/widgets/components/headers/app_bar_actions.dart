@@ -17,13 +17,9 @@ class AppBarActions extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            RoundAvatarButton(
-              avatar: IMAGE_URL,
-              callback: () {},
-            ),
-          ],
+        RoundAvatarButton(
+          avatar: IMAGE_URL,
+          callback: () {},
         ),
         const SizedBox(width: 10),
         Expanded(

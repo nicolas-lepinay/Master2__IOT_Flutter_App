@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/constants.dart';
+import '../../../../utils/constants.dart';
 
 class AnimatedCard extends StatefulWidget {
   // Position initiale (true pour la position 1, false pour la position 2)
@@ -57,8 +57,15 @@ class _AnimatedCardState extends State<AnimatedCard> {
               width: widget.width,
               height: widget.width * widget.ratio,
               decoration: BoxDecoration(
-                color: Colors.purple.withOpacity(0.3),
+                //color: Colors.purple.withOpacity(0.3),
+                color: Constants.pickle.withOpacity(0.2),
                 borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Constants.pickle.withOpacity(0.8),
+                    blurRadius: 15,
+                  ),
+                ],
               ),
             ),
             // Conteneur blanc (carte au-dessus)
@@ -74,13 +81,16 @@ class _AnimatedCardState extends State<AnimatedCard> {
                 child: Container(
                   width: widget.width,
                   height: widget.width * widget.ratio,
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 30,
+                    vertical: 20,
+                  ),
                   decoration: BoxDecoration(
-                    color: Constants.offWhite,
+                    color: Constants.lightest,
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: Constants.darkest.withOpacity(0.15),
                         blurRadius: 10,
                         offset: const Offset(5, 5),
                       ),

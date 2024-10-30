@@ -10,7 +10,7 @@ class Caption extends StatelessWidget {
     super.key,
     required this.text,
     this.textAlign = TextAlign.left,
-    this.color = Constants.darkestGrey,
+    this.color = Constants.darkest,
   });
 
   @override

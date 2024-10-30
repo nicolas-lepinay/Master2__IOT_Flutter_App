@@ -22,6 +22,7 @@ class RoundIconButton extends StatelessWidget {
         onPressed: callback,
         style: ElevatedButton.styleFrom(
           elevation: 0.0,
+          shadowColor: Colors.transparent,
           shape: CircleBorder(
             side: BorderSide(
               color: Colors.white.withOpacity(1.0),
@@ -30,8 +31,8 @@ class RoundIconButton extends StatelessWidget {
           ),
           padding: const EdgeInsets.all(0.0),
           // !important
-          backgroundColor: Constants.lightGrey,
-          foregroundColor: Constants.lightGrey,
+          backgroundColor: Constants.lightest.withOpacity(0.3),
+          foregroundColor: Constants.lilac.withOpacity(0.5),
         ),
         child: Image.asset(
           icon,

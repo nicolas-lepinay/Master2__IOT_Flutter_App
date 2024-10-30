@@ -27,10 +27,10 @@ class UITextField extends StatelessWidget {
           borderSide: BorderSide.none,
         ),
         filled: true,
-        fillColor: Colors.white,
+        fillColor: Constants.white,
         hintText: hintText,
         hintStyle: const TextStyle(
-          color: Constants.darkGrey,
+          color: Constants.neutral,
           fontWeight: FontWeight.w100,
         ),
       ),
