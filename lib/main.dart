@@ -1,7 +1,6 @@
 import 'package:arduino_iot_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:arduino_iot_app/widgets/counter_page.dart';
 import 'package:arduino_iot_app/store/counter_cubit.dart';
 import 'package:arduino_iot_app/router/router.dart';
 
@@ -11,6 +10,7 @@ import 'package:go_router/go_router.dart';
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart' as models;
 import 'package:google_fonts/google_fonts.dart';
+import 'injection/get_it.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +26,9 @@ void main() {
       .setProject("671f4ced001f0d3aeabf");
   Account account = Account(client);
 */
+
+  // Get It :
+  configureDependencies();
 
   runApp(
     BlocProvider(

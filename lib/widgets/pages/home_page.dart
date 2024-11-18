@@ -9,66 +9,96 @@ import 'package:arduino_iot_app/widgets/components/buttons/animated_buttons_bar.
 import 'package:arduino_iot_app/widgets/components/misc/localization.dart';
 import 'package:arduino_iot_app/widgets/components/buttons/animated_card/animated_card.dart';
 import 'package:arduino_iot_app/widgets//components/buttons/animated_card/animated_card_content.dart';
-import 'package:arduino_iot_app/widgets/components/misc/example_card.dart';
+import 'package:arduino_iot_app/store/equipments_cubit.dart';
+import 'package:arduino_iot_app/injection/get_it.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBackground(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(Constants.paddingMedium),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const AppBarActions(),
-                const SizedBox(height: 30),
-                const H2(text: Constants.home__title),
-                const SizedBox(height: 5),
-                const Localization(location: 'Pertuis, France'),
-                const SizedBox(height: 30),
-                AnimatedButtonsBar(
-                  outerPadding: Constants.paddingMedium,
-                  tabNames: const ["Extérieur", "RDC", "Étage"],
-                  onTabSelected: [
-                    () => print("Extérieur selected"),
-                    () => print("RDC selected"),
-                    () => print("Étage selected"),
+    return BlocProvider(
+      create: (_) => getIt<EquipmentsCubit>(),
+      child: BlocBuilder<EquipmentsCubit, EquipmentsState>(
+          builder: (context, state) {
+        return AnimatedBackground(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(Constants.paddingMedium),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const AppBarActions(),
+                    const SizedBox(height: 30),
+                    const H2(text: Constants.home__title),
+                    const SizedBox(height: 5),
+                    const Localization(location: 'Pertuis, France'),
+                    const SizedBox(height: 30),
+                    AnimatedButtonsBar(
+                      outerPadding: Constants.paddingMedium,
+                      tabNames: const ["Extérieur", "RDC", "Étage"],
+                      onTabSelected: [
+                        () => context.read<EquipmentsCubit>().fetchEquipments(),
+                        () => print("RDC selected"),
+                        () => print("Étage selected"),
+                      ],
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(
+                        top: 15.0,
+                        left: 15.0,
+                        right: 15.0,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          H3(text: Constants.home__subtitle),
+                          Spacer(),
+                          Caption(
+                            text: "1 sur 5",
+                            color: Constants.neutral,
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-                const Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      H3(text: Constants.home__subtitle),
-                      Spacer(),
-                      Caption(
-                        text: "1 sur 5",
-                        color: Constants.neutral,
-                      ),
-                    ],
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 50),
+                  child: CarouselSlider(
+                    options: CarouselOptions(
+                      height: double.infinity,
+                      viewportFraction: 1.1,
+                    ),
+                    items: state.equipments.map((equipment) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return AnimatedCard(
+                            width: MediaQuery.of(context).size.width - (70 * 2),
+                            ratio: 1.2,
+                            initialPosition: true,
+                            onDoubleTap: () {
+                              return false;
+                            },
+                            body: AnimatedCardContent(
+                              equipment: equipment,
+                            ),
+                          );
+                        },
+                      );
+                    }).toList(),
                   ),
                 ),
-                const SizedBox(height: 50),
-                AnimatedCard(
-                  width: MediaQuery.of(context).size.width - (70 * 2),
-                  ratio: 1.2,
-                  initialPosition: true,
-                  onDoubleTap: () {
-                    return false;
-                  },
-                  body: const AnimatedCardContent(),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      }),
     );
   }
 }

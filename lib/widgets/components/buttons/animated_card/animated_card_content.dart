@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:arduino_iot_app/utils/constants.dart';
 import 'package:arduino_iot_app/widgets/components/misc/localization.dart';
+import 'package:arduino_iot_app/models/equipment.dart';
 
 class AnimatedCardContent extends StatelessWidget {
-  const AnimatedCardContent({super.key});
+  final Equipment equipment;
+
+  const AnimatedCardContent({
+    required this.equipment,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     const String image = "assets/images/led-3d.webp";
-    const String name = "LED Jaune";
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,10 +34,10 @@ class AnimatedCardContent extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Expanded(
+            Expanded(
               child: Text(
-                name,
-                style: TextStyle(
+                equipment.name,
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w900,
                 ),
@@ -40,7 +45,7 @@ class AnimatedCardContent extends StatelessWidget {
             ),
             const SizedBox(width: 10),
             Chip(
-              label: Text('ON'),
+              label: equipment.state ? const Text('ON') : const Text('OFF'),
               labelStyle: const TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w900,
