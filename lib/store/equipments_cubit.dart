@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:arduino_iot_app/models/equipment.dart';
-import 'package:arduino_iot_app/repository/equipment_repository.dart';
+import 'package:arduino_iot_app/repository/global_repository.dart';
 import 'package:injectable/injectable.dart';
+import 'package:mqtt_client/mqtt_client.dart' as mqtt;
+import 'package:mqtt_client/mqtt_server_client.dart';
 
 @injectable
 class EquipmentsCubit extends Cubit<EquipmentsState> {
-  final EquipmentRepository equipmentRepository;
+  final GlobalRepository equipmentRepository;
 
   EquipmentsCubit(this.equipmentRepository) : super(EquipmentsState.initial()) {
     _fetchEquipments();
@@ -18,6 +20,7 @@ class EquipmentsCubit extends Cubit<EquipmentsState> {
       //emit(EquipmentLoading());
       final equipments = await equipmentRepository.fetchEquipments();
       emit(state.copyWith(equipments: equipments));
+      debugPrint("Length: ${state.equipments.length}");
       //emit(EquipmentLoaded(equipments));
     } catch (e) {
       //emit(EquipmentError('Failed to fetch equipments'));

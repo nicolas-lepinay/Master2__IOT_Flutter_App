@@ -15,8 +15,11 @@ class Equipment {
   final String updatedAt;
   final String? icon;
 
-  @JsonKey(name: 'rooms')
-  final Room room;
+  @JsonKey(name: 'house_id')
+  final String houseId;
+
+  @JsonKey(name: 'room_id')
+  final String? roomId;
 
   Equipment(
     this.id,
@@ -25,7 +28,8 @@ class Equipment {
     this.value,
     this.updatedAt,
     this.icon,
-    this.room,
+    this.houseId,
+    this.roomId,
   );
 
   factory Equipment.fromJson(Map<String, dynamic> json) =>

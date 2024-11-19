@@ -11,8 +11,8 @@
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
-import '../data_source/equipments_data_source.dart' as _i884;
-import '../repository/equipment_repository.dart' as _i908;
+import '../data_source/global_data_source.dart' as _i884;
+import '../repository/global_repository.dart' as _i908;
 import '../store/equipments_cubit.dart' as _i269;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -26,12 +26,11 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
-    gh.lazySingleton<_i884.EquipmentDataSource>(
-        () => _i884.EquipmentDataSource());
-    gh.lazySingleton<_i908.EquipmentRepository>(
-        () => _i908.EquipmentRepository(gh<_i884.EquipmentDataSource>()));
+    gh.lazySingleton<_i884.GlobalDataSource>(() => _i884.GlobalDataSource());
+    gh.lazySingleton<_i908.GlobalRepository>(
+        () => _i908.GlobalRepository(gh<_i884.GlobalDataSource>()));
     gh.factory<_i269.EquipmentsCubit>(
-        () => _i269.EquipmentsCubit(gh<_i908.EquipmentRepository>()));
+        () => _i269.EquipmentsCubit(gh<_i908.GlobalRepository>()));
     return this;
   }
 }
