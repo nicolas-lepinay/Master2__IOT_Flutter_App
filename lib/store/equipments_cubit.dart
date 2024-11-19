@@ -1,48 +1,51 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:arduino_iot_app/models/equipment.dart';
 import 'package:arduino_iot_app/repository/global_repository.dart';
 import 'package:injectable/injectable.dart';
-import 'package:mqtt_client/mqtt_client.dart' as mqtt;
-import 'package:mqtt_client/mqtt_server_client.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:arduino_iot_app/services/mqtt_client.dart';
 
-@injectable
+@lazySingleton
 class EquipmentsCubit extends Cubit<EquipmentsState> {
-  final GlobalRepository equipmentRepository;
+  final GlobalRepository repository;
+  final MQTT mqtt;
+  final _subscriptions = CompositeSubscription();
 
-  EquipmentsCubit(this.equipmentRepository) : super(EquipmentsState.initial()) {
-    _fetchEquipments();
+  EquipmentsCubit(this.repository, this.mqtt)
+      : super(EquipmentsState.initial()) {
+    _subscribe();
   }
 
-  Future<void> _fetchEquipments() async {
-    debugPrint("FETCHING EQUIPMENTS (AUTO)");
-    try {
-      //emit(EquipmentLoading());
-      final equipments = await equipmentRepository.fetchEquipments();
+  void _subscribe() {
+    repository.equipmentsStream.listen((equipments) {
       emit(state.copyWith(equipments: equipments));
-      debugPrint("Length: ${state.equipments.length}");
-      //emit(EquipmentLoaded(equipments));
-    } catch (e) {
-      //emit(EquipmentError('Failed to fetch equipments'));
-    }
-  }
-
-  void fetchEquipments() async {
-    _fetchEquipments();
+    }).addTo(_subscriptions);
+    emit(state.copyWith(isLoading: false));
   }
 }
 
 class EquipmentsState {
   final List<Equipment> equipments;
+  final bool isLoading;
 
-  EquipmentsState({required this.equipments});
+  EquipmentsState({
+    required this.equipments,
+    required this.isLoading,
+  });
 
   factory EquipmentsState.initial() {
-    return EquipmentsState(equipments: []);
+    return EquipmentsState(
+      equipments: [],
+      isLoading: true,
+    );
   }
 
   EquipmentsState copyWith({
     List<Equipment>? equipments,
+    bool? isLoading,
   }) =>
-      EquipmentsState(equipments: equipments ?? this.equipments);
+      EquipmentsState(
+        equipments: equipments ?? this.equipments,
+        isLoading: isLoading ?? this.isLoading,
+      );
 }

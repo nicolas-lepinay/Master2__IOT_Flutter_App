@@ -51,7 +51,9 @@ class AnimatedCardContent extends StatelessWidget {
                 fontWeight: FontWeight.w900,
                 color: Constants.darkest,
               ),
-              backgroundColor: Constants.pickle.withOpacity(0.5),
+              backgroundColor: equipment.state
+                  ? Constants.pickle.withOpacity(0.5)
+                  : Constants.light,
               //backgroundColor: Constants.light,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(50),

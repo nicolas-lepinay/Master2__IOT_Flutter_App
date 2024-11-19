@@ -8,7 +8,6 @@ import 'package:arduino_iot_app/widgets/components/typography/caption.dart';
 import 'package:arduino_iot_app/widgets/components/buttons/animated_buttons_bar.dart';
 import 'package:arduino_iot_app/widgets/components/misc/localization.dart';
 import 'package:arduino_iot_app/widgets/components/buttons/animated_card/animated_card.dart';
-import 'package:arduino_iot_app/widgets//components/buttons/animated_card/animated_card_content.dart';
 import 'package:arduino_iot_app/store/equipments_cubit.dart';
 import 'package:arduino_iot_app/injection/get_it.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,7 +40,8 @@ class HomePage extends StatelessWidget {
                       outerPadding: Constants.paddingMedium,
                       tabNames: const ["Extérieur", "RDC", "Étage"],
                       onTabSelected: [
-                        () => context.read<EquipmentsCubit>().fetchEquipments(),
+                        () => print(
+                            'Equipments Length: ${state.equipments.length}'),
                         () => print("RDC selected"),
                         () => print("Étage selected"),
                       ],
@@ -67,34 +67,33 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 50),
-                  child: CarouselSlider(
-                    options: CarouselOptions(
-                      height: double.infinity,
-                      viewportFraction: 1.1,
-                    ),
-                    items: state.equipments.map((equipment) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return AnimatedCard(
-                            width: MediaQuery.of(context).size.width - (70 * 2),
-                            ratio: 1.2,
-                            initialPosition: true,
-                            onDoubleTap: () {
-                              return false;
+              state.isLoading || state.equipments.isEmpty
+                  ? const Expanded(
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    )
+                  : Expanded(
+                      child: CarouselSlider(
+                        options: CarouselOptions(
+                          height: double.infinity,
+                          viewportFraction: 1.1,
+                        ),
+                        items: state.equipments.map((equipment) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return AnimatedCard(
+                                equipment: equipment,
+                                onDoubleTap: () {
+                                  return !equipment.state;
+                                },
+                              );
                             },
-                            body: AnimatedCardContent(
-                              equipment: equipment,
-                            ),
                           );
-                        },
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ),
+                        }).toList(),
+                      ),
+                    ),
+              const SizedBox(height: 75),
             ],
           ),
         );

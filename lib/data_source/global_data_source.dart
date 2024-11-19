@@ -11,23 +11,17 @@ class GlobalDataSource {
     try {
       final response = await http.get(Uri.parse(
           '${Settings.API_URL}/${Settings.EQUIPMENTS_ENDPOINT}/house/${Settings.HOUSE_ID}'));
+
+      if (response.statusCode != 200) {
+        throw ('Impossible de récupérer les équipements.');
+      }
+
       final jsonData = json.decode(response.body);
       final List<dynamic> documents = jsonData['documents'];
       final equipments = documents
           .map((doc) => Equipment.fromJson(doc as Map<String, dynamic>))
           .toList();
       return equipments;
-    } catch (e) {
-      debugPrint(e.toString());
-      rethrow;
-    }
-  }
-
-  Future<http.Response> getEquipments_v2() async {
-    try {
-      final response = await http.get(Uri.parse(
-          '${Settings.API_URL}/${Settings.EQUIPMENTS_ENDPOINT}/house/${Settings.HOUSE_ID}'));
-      return response;
     } catch (e) {
       debugPrint(e.toString());
       rethrow;

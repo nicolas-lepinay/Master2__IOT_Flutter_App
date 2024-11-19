@@ -11,8 +11,9 @@
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
-import '../data_source/global_data_source.dart' as _i884;
-import '../repository/global_repository.dart' as _i908;
+import '../data_source/global_data_source.dart' as _i233;
+import '../repository/global_repository.dart' as _i461;
+import '../services/mqtt_client.dart' as _i226;
 import '../store/equipments_cubit.dart' as _i269;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -26,11 +27,14 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
-    gh.lazySingleton<_i884.GlobalDataSource>(() => _i884.GlobalDataSource());
-    gh.lazySingleton<_i908.GlobalRepository>(
-        () => _i908.GlobalRepository(gh<_i884.GlobalDataSource>()));
-    gh.factory<_i269.EquipmentsCubit>(
-        () => _i269.EquipmentsCubit(gh<_i908.GlobalRepository>()));
+    gh.lazySingleton<_i233.GlobalDataSource>(() => _i233.GlobalDataSource());
+    gh.lazySingleton<_i226.MQTT>(() => _i226.MQTT());
+    gh.lazySingleton<_i461.GlobalRepository>(
+        () => _i461.GlobalRepository(gh<_i233.GlobalDataSource>()));
+    gh.lazySingleton<_i269.EquipmentsCubit>(() => _i269.EquipmentsCubit(
+          gh<_i461.GlobalRepository>(),
+          gh<_i226.MQTT>(),
+        ));
     return this;
   }
 }

@@ -2,6 +2,8 @@ import 'package:arduino_iot_app/data_source/global_data_source.dart';
 import 'package:arduino_iot_app/models/equipment.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:injectable/injectable.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 @lazySingleton
 class GlobalRepository {
@@ -14,9 +16,8 @@ class GlobalRepository {
   }
 
   // Equipments
-  List<Equipment> _equipmentsData = [];
   final BehaviorSubject<List<Equipment>> _equipmentsController =
-  BehaviorSubject<List<Equipment>>();
+      BehaviorSubject<List<Equipment>>();
 
   // Stream getters
   Stream<List<Equipment>> get equipmentsStream => _equipmentsController.stream;
@@ -29,14 +30,13 @@ class GlobalRepository {
     }
   }
 
-  Future<List<Equipment>> fetchEquipments() {
-    return dataSource.getEquipments();
+  Future<List<Equipment>> _fetchEquipments() async {
+    try {
+      List<Equipment> equipments = await dataSource.getEquipments();
+      _equipmentsController.add(equipments);
+      return equipments;
+    } catch (e) {
+      rethrow;
+    }
   }
-
-  void _fetchEquipments() async {
-    var response = await dataSource.getEquipments_v2();
-    return;
-  }
-
-
 }
