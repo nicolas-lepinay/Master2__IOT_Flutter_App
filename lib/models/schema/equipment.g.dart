@@ -7,23 +7,23 @@ part of 'equipment.dart';
 // **************************************************************************
 
 Equipment _$EquipmentFromJson(Map<String, dynamic> json) => Equipment(
-      json[r'$id'] as String,
-      json['name'] as String,
-      json['state'] as bool,
-      json['value'] as String?,
-      json[r'$updatedAt'] as String,
-      json['icon'] as String?,
-      json['house_id'] as String,
-      json['room_id'] as String?,
+      id: json['id'] as String,
+      esp32Id: json['esp32Id'] as String,
+      name: json['name'] as String,
+      state: json['state'] as bool,
+      value: json['value'] as String?,
+      unit: json['unit'] as String?,
+      houseId: json['houseId'] as String,
+      roomId: json['roomId'] as String?,
     );
 
 Map<String, dynamic> _$EquipmentToJson(Equipment instance) => <String, dynamic>{
-      r'$id': instance.id,
+      'id': instance.id,
+      'esp32Id': instance.esp32Id,
       'name': instance.name,
       'state': instance.state,
       'value': instance.value,
-      r'$updatedAt': instance.updatedAt,
-      'icon': instance.icon,
-      'house_id': instance.houseId,
-      'room_id': instance.roomId,
+      'unit': instance.unit,
+      'houseId': instance.houseId,
+      'roomId': instance.roomId,
     };

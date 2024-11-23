@@ -1,19 +1,19 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'room.dart';
+part of 'house.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Room _$RoomFromJson(Map<String, dynamic> json) => Room(
-      json[r'$id'] as String,
+House _$HouseFromJson(Map<String, dynamic> json) => House(
+      json['id'] as String,
+      json['esp32Id'] as String,
       json['name'] as String,
-      json['house_id'] as String,
     );
 
-Map<String, dynamic> _$RoomToJson(Room instance) => <String, dynamic>{
-      r'$id': instance.id,
+Map<String, dynamic> _$HouseToJson(House instance) => <String, dynamic>{
+      'id': instance.id,
+      'esp32Id': instance.esp32Id,
       'name': instance.name,
-      'house_id': instance.houseId,
     };

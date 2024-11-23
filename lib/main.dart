@@ -6,9 +6,6 @@ import 'package:arduino_iot_app/router/router.dart';
 
 // Externes
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:appwrite/appwrite.dart';
-import 'package:appwrite/models.dart' as models;
 import 'package:google_fonts/google_fonts.dart';
 import 'injection/get_it.dart';
 
@@ -19,13 +16,6 @@ void main() {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-
-  /*
-  Client client = Client()
-      .setEndpoint("https://cloud.appwrite.io/v1")
-      .setProject("671f4ced001f0d3aeabf");
-  Account account = Account(client);
-*/
 
   // Get It :
   configureDependencies();
@@ -45,7 +35,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Flutter Demo',
+      title: 'Flutter IoT App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         //fontFamily: 'Satoshi',

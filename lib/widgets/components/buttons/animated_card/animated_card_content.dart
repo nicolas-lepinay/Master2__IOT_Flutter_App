@@ -1,7 +1,8 @@
+import 'package:arduino_iot_app/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:arduino_iot_app/utils/constants.dart';
-import 'package:arduino_iot_app/widgets/components/misc/localization.dart';
-import 'package:arduino_iot_app/models/equipment.dart';
+import 'package:arduino_iot_app/models/schema/equipment.dart';
+import 'package:arduino_iot_app/widgets/components/misc/data_value.dart';
 
 class AnimatedCardContent extends StatelessWidget {
   final Equipment equipment;
@@ -13,19 +14,17 @@ class AnimatedCardContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const String image = "assets/images/led-3d.webp";
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           //width: MediaQuery.of(context).size.width / 4,
           height: MediaQuery.of(context).size.width / 3,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             //color: Constants.lilac.withOpacity(0.3),
             image: DecorationImage(
               fit: BoxFit.contain,
-              image: AssetImage(image),
+              image: AssetImage(equipment.imageAssetPath),
             ),
           ),
         ),
@@ -46,14 +45,14 @@ class AnimatedCardContent extends StatelessWidget {
             const SizedBox(width: 10),
             Chip(
               label: equipment.state ? const Text('ON') : const Text('OFF'),
-              labelStyle: const TextStyle(
+              labelStyle: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w900,
-                color: Constants.darkest,
+                color: equipment.state ? Constants.darkest : Constants.lightest,
               ),
               backgroundColor: equipment.state
                   ? Constants.pickle.withOpacity(0.5)
-                  : Constants.light,
+                  : Constants.tomato,
               //backgroundColor: Constants.light,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(50),
@@ -64,7 +63,11 @@ class AnimatedCardContent extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 5),
-        const Localization(location: 'Jardin'),
+        DataValue(
+          esp32Id: equipment.esp32Id,
+          value: equipment.value,
+          unit: equipment.unit,
+        ),
       ],
     );
   }

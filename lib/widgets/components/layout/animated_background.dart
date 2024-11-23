@@ -40,11 +40,14 @@ class AnimatedBackground extends StatelessWidget {
               ),
             ),
             // RIV ANIMATION
-            const ColourFilter(
-              saturation: 0.1,
-              child: RiveAnimation.asset(
-                Constants.shapes,
-                fit: BoxFit.fitWidth,
+            const Opacity(
+              opacity: 0.8,
+              child: ColourFilter(
+                saturation: 0.1,
+                child: RiveAnimation.asset(
+                  Constants.shapes,
+                  fit: BoxFit.fitWidth,
+                ),
               ),
             ),
             // BLUR BACKDROP FILTER

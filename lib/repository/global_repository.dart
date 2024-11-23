@@ -1,9 +1,7 @@
 import 'package:arduino_iot_app/data_source/global_data_source.dart';
-import 'package:arduino_iot_app/models/equipment.dart';
+import 'package:arduino_iot_app/models/schema/equipment.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:injectable/injectable.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 @lazySingleton
 class GlobalRepository {
@@ -35,6 +33,15 @@ class GlobalRepository {
       List<Equipment> equipments = await dataSource.getEquipments();
       _equipmentsController.add(equipments);
       return equipments;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> updateEquipmentState(Equipment equipment) async {
+    try {
+      await dataSource.updateEquipment(equipment);
+      //_fetchEquipments(); // Optionnel : recharger les équipements
     } catch (e) {
       rethrow;
     }

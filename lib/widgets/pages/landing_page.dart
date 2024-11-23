@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:arduino_iot_app/utils/constants.dart';
 import 'package:arduino_iot_app/widgets/components/typography/h1.dart';
-import 'package:arduino_iot_app/widgets/components/typography/text_body.dart';
 import 'package:arduino_iot_app/widgets/components/textfields/ui_text_field.dart';
 import 'package:arduino_iot_app/widgets/components/layout/animated_background.dart';
 import 'package:arduino_iot_app/widgets/components/buttons/ui_button.dart';

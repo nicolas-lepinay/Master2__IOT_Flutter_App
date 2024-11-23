@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:arduino_iot_app/widgets/components/typography/text_body.dart';
 import 'package:arduino_iot_app/widgets/components/typography/caption.dart';
 import 'package:arduino_iot_app/utils/constants.dart';
 

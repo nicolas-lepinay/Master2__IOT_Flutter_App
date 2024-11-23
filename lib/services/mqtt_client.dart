@@ -4,6 +4,8 @@ import 'package:injectable/injectable.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
+import 'package:arduino_iot_app/utils/settings.dart';
+
 @lazySingleton
 class MQTT {
   late final MqttServerClient mqttClient;
@@ -13,16 +15,16 @@ class MQTT {
   }
 
   void _init() {
-    mqttClient = MqttServerClient.withPort(
-        'b5f2bf8397624117be2142697084afa1.s1.eu.hivemq.cloud', '', 8883);
+    mqttClient =
+        MqttServerClient.withPort(Settings.MQTT_HOST, '', Settings.MQTT_PORT);
     mqttClient.secure = true; // Utiliser une connexion sécurisée
     mqttClient.logging(on: true);
     mqttClient.keepAlivePeriod = 20;
     mqttClient.securityContext = SecurityContext.defaultContext;
 
     final MqttConnectMessage connMess = MqttConnectMessage()
-        .withClientIdentifier('flutter_client')
-        .authenticateAs('nicolas', 'Abcd1234')
+        .withClientIdentifier('Flutter_IOT_APP')
+        .authenticateAs(Settings.MQTT_USERNAME, Settings.MQTT_PASSWORD)
         .startClean()
         .withWillQos(MqttQos.atMostOnce);
 
@@ -32,7 +34,8 @@ class MQTT {
       if (mqttClient.connectionStatus!.state == MqttConnectionState.connected) {
         debugPrint('MQTT client connected successfully');
         // S'abonner aux topics
-        mqttClient.subscribe('equipments/+/status', MqttQos.atLeastOnce);
+        mqttClient.subscribe('KEVIN/+/state', MqttQos.atLeastOnce);
+        mqttClient.subscribe('KEVIN/+/value', MqttQos.atLeastOnce);
 
         mqttClient.updates!.listen((List<MqttReceivedMessage<MqttMessage>> c) {
           final MqttPublishMessage message = c[0].payload as MqttPublishMessage;
