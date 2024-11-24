@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:arduino_iot_app/models/schema/equipment.dart';
 import 'package:arduino_iot_app/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../store/equipments_cubit.dart';
+import 'package:arduino_iot_app/store/equipments_cubit.dart';
 import 'animated_card_content.dart';
 
 class AnimatedCard extends StatelessWidget {
@@ -36,7 +36,7 @@ class AnimatedCard extends StatelessWidget {
             alignment: Alignment.center,
             clipBehavior: Clip.none,
             children: [
-              // Conteneur violet (arrière-plan)
+              // Conteneur vert (arrière-plan)
               Container(
                 //width: width,
                 //height: width * ratio,
