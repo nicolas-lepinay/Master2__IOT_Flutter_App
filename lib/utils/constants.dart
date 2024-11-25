@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:flutter/material.dart';
 
 class Constants {
   // ASSET IMAGES
@@ -49,19 +50,4 @@ class Constants {
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor.";
   static const String home__title = "Ma maison";
   static const String home__subtitle = "Mes équipements";
-}
-
-// EQUIPMENT IMAGES
-enum EquipmentAsset {
-  led('assets/images/led-3d.webp'),
-  fan('assets/images/fan-3d.webp'),
-  lcdDisplay('assets/images/tv-3d.png'),
-  temperatureSensor('assets/images/snowflake-3d.png'),
-  humiditySensor('assets/images/humidity-3d.webp'),
-  gasSensor('assets/images/gas-3d.png'),
-  unknown('assets/images/unknown-3d.png');
-
-  final String assetPath;
-
-  const EquipmentAsset(this.assetPath);
 }

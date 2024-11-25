@@ -1,35 +1,30 @@
+import 'package:arduino_iot_app/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:arduino_iot_app/widgets/components/typography/caption.dart';
 import 'package:arduino_iot_app/utils/constants.dart';
+import 'package:arduino_iot_app/models/schema/equipment.dart';
 
 class DataValue extends StatelessWidget {
-  final String esp32Id;
-  final String? value;
-  final String? unit;
+  final Equipment equipment;
 
   const DataValue({
     super.key,
-    required this.esp32Id,
-    this.value,
-    this.unit,
+    required this.equipment,
   });
 
   @override
   Widget build(BuildContext context) {
-    final icon = getIconFromEquipment(esp32Id);
-
     return Row(
       children: [
         Icon(
-          icon,
+          equipment.dataIcon,
           size: 24,
           color: Constants.periwinkle,
         ),
         const SizedBox(width: 7.0),
         Caption(
-          text: (value != null && unit != null)
-              ? '$value $unit'
-              : 'Aucune donnée.',
+          text:
+              '${equipment.formatedValue ?? 'Aucune donnée'} ${equipment.unit ?? ''}',
           color: Constants.periwinkle,
         ),
       ],

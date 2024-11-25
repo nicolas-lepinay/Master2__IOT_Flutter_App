@@ -11,7 +11,7 @@ class MQTT {
   late final MqttServerClient mqttClient;
 
   MQTT() {
-    _init();
+    //_init();
   }
 
   void _init() {

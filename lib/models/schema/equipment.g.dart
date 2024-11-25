@@ -14,7 +14,6 @@ Equipment _$EquipmentFromJson(Map<String, dynamic> json) => Equipment(
       value: json['value'] as String?,
       unit: json['unit'] as String?,
       houseId: json['houseId'] as String,
-      roomId: json['roomId'] as String?,
     );
 
 Map<String, dynamic> _$EquipmentToJson(Equipment instance) => <String, dynamic>{
@@ -25,5 +24,4 @@ Map<String, dynamic> _$EquipmentToJson(Equipment instance) => <String, dynamic>{
       'value': instance.value,
       'unit': instance.unit,
       'houseId': instance.houseId,
-      'roomId': instance.roomId,
     };

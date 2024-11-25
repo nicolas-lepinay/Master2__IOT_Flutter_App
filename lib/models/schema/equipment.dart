@@ -11,6 +11,7 @@ class Equipment {
   final String? value;
   final String? unit;
   final String houseId;
+  @JsonKey(includeFromJson: false, includeToJson: false)
   final String? roomId;
 
   Equipment({

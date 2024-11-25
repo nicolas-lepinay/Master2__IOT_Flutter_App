@@ -25,13 +25,13 @@ class AnimatedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width - (70 * 2);
+    final width = MediaQuery.of(context).size.width - (60 * 2);
     return GestureDetector(
       onDoubleTap: () =>
           context.read<EquipmentsCubit>().toggleEquipmentState(equipment),
       child: Center(
         child: Opacity(
-          opacity: equipment.state ? 1 : 0.6,
+          opacity: equipment.state ? 1 : 0.8,
           child: Stack(
             alignment: Alignment.center,
             clipBehavior: Clip.none,
@@ -76,13 +76,13 @@ class AnimatedCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: equipment.state
                           ? Constants.lightest
-                          : Constants.lightest.withOpacity(0.7),
+                          : Constants.lightest.withOpacity(0.9),
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: [
                         BoxShadow(
                           color: equipment.state
                               ? Constants.darkest.withOpacity(0.15)
-                              : Colors.transparent,
+                              : Constants.darkest.withOpacity(0.15),
                           blurRadius: 10,
                           offset: const Offset(5, 5),
                         ),

@@ -5,12 +5,10 @@ part 'house.g.dart';
 @JsonSerializable()
 class House {
   final String id;
-  final String esp32Id;
   final String name;
 
   House(
     this.id,
-    this.esp32Id,
     this.name,
   );
 

@@ -5,7 +5,7 @@ class Settings {
   static const String EQUIPMENTS_ENDPOINT = "equipments";
   static const String HOUSES_ENDPOINT = "houses";
   static const String ROOMS_ENDPOINT = "rooms";
-  static const String HOUSE_ID = "c1e92775-a9fb-489f-9375-d7cc918cb339";
+  static const String HOUSE_ID = "KEVIN";
 
   // MQTT
   static const String MQTT_HOST =
