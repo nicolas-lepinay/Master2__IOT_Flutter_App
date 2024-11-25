@@ -14,7 +14,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
+
+  final CarouselSliderController _carouselController =
+      CarouselSliderController();
 
   @override
   Widget build(BuildContext context) {
@@ -38,16 +41,29 @@ class HomePage extends StatelessWidget {
                     const SizedBox(height: 30),
                     AnimatedButtonsBar(
                       outerPadding: Constants.paddingMedium,
-                      tabNames: const ["Extérieur", "RDC", "Étage"],
+                      tabNames: const ["Actions", "Données", "Routines"],
                       onTabSelected: [
-                        () => print(
-                            'Equipments Length: ${state.equipments.length}'),
-                        () => print("RDC selected"),
-                        () => print("Étage selected"),
+                        () {
+                          context.read<EquipmentsCubit>().changeTab(0);
+                          // _carouselController.animateToPage(
+                          //   0,
+                          //   duration: const Duration(seconds: 1),
+                          //   curve: Curves.easeIn,
+                          // );
+                        },
+                        () {
+                          context.read<EquipmentsCubit>().changeTab(1);
+                          // _carouselController.animateToPage(
+                          //   0,
+                          //   duration: const Duration(seconds: 1),
+                          //   curve: Curves.easeIn,
+                          // );
+                        },
+                        () => print("Routines selected."),
                       ],
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(
+                    Padding(
+                      padding: const EdgeInsets.only(
                         top: 15.0,
                         left: 15.0,
                         right: 15.0,
@@ -55,10 +71,12 @@ class HomePage extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          H3(text: Constants.home__subtitle),
-                          Spacer(),
+                          const H3(text: Constants.home__subtitle),
+                          const Spacer(),
                           Caption(
-                            text: "1 sur 5",
+                            text: state.isLoading
+                                ? '...'
+                                : '${state.currentIndex + 1} sur ${state.filteredEquipments.length}',
                             color: Constants.neutral,
                           ),
                         ],
@@ -75,11 +93,15 @@ class HomePage extends StatelessWidget {
                     )
                   : Expanded(
                       child: CarouselSlider(
+                        carouselController: _carouselController,
                         options: CarouselOptions(
                           height: double.infinity,
                           viewportFraction: 1.1,
+                          onPageChanged: (index, reason) {
+                            context.read<EquipmentsCubit>().updateIndex(index);
+                          },
                         ),
-                        items: state.equipments.map((equipment) {
+                        items: state.filteredEquipments.map((equipment) {
                           return Builder(
                             builder: (BuildContext context) {
                               return AnimatedCard(

@@ -1,11 +1,18 @@
 import 'package:arduino_iot_app/models/schema/equipment.dart';
 import 'package:flutter/material.dart';
 
+import 'constants.dart';
+
 extension EquipmentAssetExtension on Equipment {
   EquipmentAsset get equipmentAsset {
     switch (esp32Id) {
       case 'LED':
-        return EquipmentAsset.led;
+        switch (state) {
+          case true:
+            return EquipmentAsset.ledOn;
+          case false:
+            return EquipmentAsset.ledOff;
+        }
       case 'RGB_LED':
         return EquipmentAsset.rgbLed;
       case 'FAN':
@@ -25,7 +32,12 @@ extension EquipmentAssetExtension on Equipment {
       case 'WINDOW_SERVO':
         return EquipmentAsset.windowServo;
       case 'DOOR_SERVO':
-        return EquipmentAsset.doorServo;
+        switch (state) {
+          case true:
+            return EquipmentAsset.doorServoOn;
+          case false:
+            return EquipmentAsset.doorServoOff;
+        }
       case 'BUZZER':
         switch (state) {
           case true:
@@ -96,8 +108,59 @@ extension EquipmentAssetExtension on Equipment {
           case false:
             return 'Pas de mouvement';
         }
+      case 'LED':
+        switch (state) {
+          case true:
+            return 'Allumée';
+          case false:
+            return 'Éteinte';
+        }
       default:
         return value;
+    }
+  }
+
+  Color get colorOn {
+    switch (esp32Id) {
+      case 'LED':
+      case 'RGB_LED':
+      case 'FAN':
+      case 'LCD_DISPLAY':
+      case 'BUZZER':
+      case 'WINDOW_SERVO':
+      case 'DOOR_SERVO':
+        return Constants.pickle;
+      case 'TEMP_SENSOR':
+      case 'HUMIDITY_SENSOR':
+        return Constants.babyBlue;
+      case 'GAS_SENSOR':
+      case 'SMOKE_SENSOR':
+      case 'MOTION_SENSOR':
+        return Constants.tomato;
+      default:
+        return Constants.pickle;
+    }
+  }
+
+  Color get colorOff {
+    switch (esp32Id) {
+      case 'LED':
+      case 'RGB_LED':
+      case 'FAN':
+      case 'LCD_DISPLAY':
+      case 'BUZZER':
+      case 'WINDOW_SERVO':
+      case 'DOOR_SERVO':
+        return Constants.tomato;
+      case 'TEMP_SENSOR':
+      case 'HUMIDITY_SENSOR':
+        return Constants.tomato;
+      case 'GAS_SENSOR':
+      case 'SMOKE_SENSOR':
+      case 'MOTION_SENSOR':
+        return Constants.neutral;
+      default:
+        return Constants.tomato;
     }
   }
 
@@ -107,7 +170,8 @@ extension EquipmentAssetExtension on Equipment {
 }
 
 enum EquipmentAsset {
-  led('assets/images/led-3d.webp'),
+  ledOn('assets/images/bulb-3d-on.webp'),
+  ledOff('assets/images/bulb-3d-off.webp'),
   rgbLed('assets/images/rgb-led-3d.png'),
   fan('assets/images/fan-3d.webp'),
   lcdDisplay('assets/images/tv-3d.png'),
@@ -115,7 +179,8 @@ enum EquipmentAsset {
   humiditySensor('assets/images/humidity-3d.webp'),
   gasSensor('assets/images/gas-3d.png'),
   smokeSensor('assets/images/smoke-3d.png'),
-  doorServo('assets/images/door-3d.webp'),
+  doorServoOn('assets/images/door-3d-open.webp'),
+  doorServoOff('assets/images/door-3d.webp'),
   windowServo('assets/images/window-3d-v2.png'),
   motionSensor('assets/images/motion-3d.png'),
   buzzerOn('assets/images/speaker-on-3d.png'),

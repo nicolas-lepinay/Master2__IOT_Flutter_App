@@ -29,7 +29,6 @@ class Constants {
   static const Color light = Color(0xFFD9DFE8); // ou 0xFFACB1C3
   static const Color lighter = Color(0xFFE2E6EE);
   static const Color lightest = Color(0xFFF7F9FC);
-  static const Color lightest2 = Color(0xFFF7F9FC); // équivalent à offWhite
   static const Color white = Color(0xFFFFFFFF);
 
   // ---- COLOURFUL
@@ -37,6 +36,7 @@ class Constants {
   static const Color lilac = Color(0xFFD796FC);
   static const Color periwinkle = Color(0xFF8A8EEF);
   static const Color pickle = Color(0xFF96DD6F);
+  static const Color babyBlue = Color(0xFF6ACEF9);
 
   // MEASURES
   static const double paddingMedium = 30;

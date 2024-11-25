@@ -5,6 +5,7 @@ import 'package:arduino_iot_app/utils/extensions.dart';
 import 'package:arduino_iot_app/utils/constants.dart';
 import 'package:arduino_iot_app/store/equipments_cubit.dart';
 import 'package:arduino_iot_app/widgets/components/typography/caption.dart';
+import 'package:go_router/go_router.dart';
 
 class AnimatedCard extends StatelessWidget {
   // Callback pour l'appel d'API au double-tap
@@ -14,7 +15,6 @@ class AnimatedCard extends StatelessWidget {
 
   const AnimatedCard({
     super.key,
-    //required this.initialPosition,
     required this.onDoubleTap,
     required this.equipment,
     this.ratio = 1.2,
@@ -24,10 +24,15 @@ class AnimatedCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width - (60 * 2);
     return GestureDetector(
-      onDoubleTap: () => context.read<EquipmentsCubit>().toggleEquipmentState(equipment),
+      onDoubleTap: () {
+        context.read<EquipmentsCubit>().toggleEquipmentState(equipment);
+      },
+      onLongPress: () {
+        context.push('/details', extra: equipment);
+      },
       child: Center(
         child: Opacity(
-          opacity: equipment.state ? 1 : 0.8,
+          opacity: equipment.state ? 1 : 1,
           child: Stack(
             alignment: Alignment.center,
             clipBehavior: Clip.none,
@@ -79,13 +84,15 @@ class Foreground extends StatelessWidget {
             vertical: 20,
           ),
           decoration: BoxDecoration(
-            color: equipment.state ? Constants.lightest : Constants.lightest.withOpacity(0.9),
+            color: equipment.state
+                ? Constants.lightest
+                : Constants.lightest.withOpacity(0.8),
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
                 color: equipment.state
                     ? Constants.darkest.withOpacity(0.15)
-                    : Constants.darkest.withOpacity(0.15),
+                    : Constants.darkest.withOpacity(0.07),
                 blurRadius: 10,
                 offset: const Offset(5, 5),
               ),
@@ -120,11 +127,15 @@ class Background extends StatelessWidget {
       width: width,
       height: width * ratio,
       decoration: BoxDecoration(
-        color: equipment.state ? Constants.pickle.withOpacity(0.2) : Colors.transparent,
+        color: equipment.state
+            ? equipment.colorOn.withOpacity(0.2)
+            : Colors.transparent,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: equipment.state ? Constants.pickle.withOpacity(0.8) : Colors.transparent,
+            color: equipment.state
+                ? equipment.colorOn.withOpacity(0.8)
+                : Colors.transparent,
             blurRadius: 15,
           ),
         ],
@@ -207,11 +218,17 @@ class DisplayState extends StatelessWidget {
       labelStyle: TextStyle(
         fontSize: 13,
         fontWeight: FontWeight.w900,
-        color: equipment.state ? Constants.darkest : Constants.lightest,
+        color: equipment.state
+            ? equipment.colorOn != Constants.tomato
+                ? Constants.darkest
+                : Constants.lightest
+            : Constants.lightest,
       ),
       backgroundColor: equipment.state
-          ? Constants.pickle.withOpacity(0.5)
-          : Constants.tomato,
+          ? equipment.colorOn != Constants.tomato
+              ? equipment.colorOn.withOpacity(0.6)
+              : equipment.colorOn
+          : equipment.colorOff,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(50),
         side: const BorderSide(color: Colors.transparent),
@@ -265,4 +282,3 @@ class DisplayImage extends StatelessWidget {
     );
   }
 }
-
