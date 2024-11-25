@@ -7,7 +7,7 @@ import 'package:arduino_iot_app/widgets/components/typography/h3.dart';
 import 'package:arduino_iot_app/widgets/components/typography/caption.dart';
 import 'package:arduino_iot_app/widgets/components/buttons/animated_buttons_bar.dart';
 import 'package:arduino_iot_app/widgets/components/misc/localization.dart';
-import 'package:arduino_iot_app/widgets/components/buttons/animated_card/animated_card.dart';
+import 'package:arduino_iot_app/widgets/components/buttons/animated_card.dart';
 import 'package:arduino_iot_app/store/equipments_cubit.dart';
 import 'package:arduino_iot_app/injection/get_it.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
