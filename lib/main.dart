@@ -1,7 +1,7 @@
+import 'package:arduino_iot_app/store/equipments_cubit.dart';
 import 'package:arduino_iot_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:arduino_iot_app/store/counter_cubit.dart';
 import 'package:arduino_iot_app/router/router.dart';
 
 // Externes
@@ -20,12 +20,19 @@ void main() {
   // Get It :
   configureDependencies();
 
+  /*
   runApp(
-    BlocProvider(
-      create: (context) => CounterCubit(),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<EquipmentsCubit>(
+          create: (context) => getIt<EquipmentsCubit>(),
+        ),
+      ],
       child: const MyApp(),
     ),
   );
+   */
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

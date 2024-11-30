@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 // Pages
@@ -8,6 +9,9 @@ import 'package:arduino_iot_app/widgets/pages/details_page.dart';
 
 // Models
 import 'package:arduino_iot_app/models/schema/equipment.dart';
+
+import '../injection/get_it.dart';
+import '../store/equipments_cubit.dart';
 
 // The route configuration.
 final GoRouter router = GoRouter(
@@ -21,7 +25,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/home',
       builder: (BuildContext context, GoRouterState state) {
-        return HomePage();
+        return BlocProvider(
+          create: (_) => getIt<EquipmentsCubit>(),
+          child: HomePage(),
+        );
       },
     ),
     GoRoute(

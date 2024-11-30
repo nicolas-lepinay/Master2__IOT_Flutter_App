@@ -7,47 +7,98 @@ import 'package:arduino_iot_app/store/equipments_cubit.dart';
 import 'package:arduino_iot_app/widgets/components/typography/caption.dart';
 import 'package:go_router/go_router.dart';
 
-class AnimatedCard extends StatelessWidget {
-  // Callback pour l'appel d'API au double-tap
-  final bool Function() onDoubleTap;
+import '../../../utils/toast_helper.dart';
+
+class AnimatedCard extends StatefulWidget {
   final Equipment equipment;
   final double ratio;
 
   const AnimatedCard({
     super.key,
-    required this.onDoubleTap,
     required this.equipment,
     this.ratio = 1.2,
   });
 
   @override
+  State<AnimatedCard> createState() => _AnimatedCardState();
+}
+
+class _AnimatedCardState extends State<AnimatedCard>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _shakeAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    // Configuration du contrôleur d'animation
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
+
+    // Configuration de l'animation de secousse avec Tween
+    _shakeAnimation = Tween<double>(begin: 0, end: 30)
+        .chain(CurveTween(curve: Curves.elasticIn))
+        .animate(_controller)
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          _controller.reverse();
+        }
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _onDoubleTap() {
+    if (widget.equipment.isActionable) {
+      // Si actionnable, effectuer le toggle
+      context.read<EquipmentsCubit>().toggleEquipmentState(widget.equipment);
+    } else {
+      // Si non actionnable, démarrer l'animation de secousse
+      _controller.forward();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width - (60 * 2);
     return GestureDetector(
-      onDoubleTap: () {
-        context.read<EquipmentsCubit>().toggleEquipmentState(equipment);
-      },
+      onDoubleTap: _onDoubleTap,
       onLongPress: () {
-        context.push('/details', extra: equipment);
+        context.push('/details', extra: widget.equipment);
       },
-      child: Center(
-        child: Opacity(
-          opacity: equipment.state ? 1 : 1,
-          child: Stack(
-            alignment: Alignment.center,
-            clipBehavior: Clip.none,
-            children: [
-              Background(
-                width: width,
-                ratio: ratio,
-                equipment: equipment,
-              ),
-              Foreground(
-                equipment: equipment,
-                width: width,
-                ratio: ratio,
-              ),
-            ],
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return Transform.translate(
+            offset: Offset(_shakeAnimation.value, 0),
+            child: child,
+          );
+        },
+        child: Center(
+          child: Opacity(
+            opacity: widget.equipment.state ? 1 : 1,
+            child: Stack(
+              alignment: Alignment.center,
+              clipBehavior: Clip.none,
+              children: [
+                Background(
+                  width: width,
+                  ratio: widget.ratio,
+                  equipment: widget.equipment,
+                ),
+                Foreground(
+                  equipment: widget.equipment,
+                  width: width,
+                  ratio: widget.ratio,
+                ),
+              ],
+            ),
           ),
         ),
       ),

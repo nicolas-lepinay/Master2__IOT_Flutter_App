@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'constants.dart';
 
-extension EquipmentAssetExtension on Equipment {
+extension EquipmentExtension on Equipment {
   EquipmentAsset get equipmentAsset {
     switch (esp32Id) {
       case 'LED':
@@ -120,6 +120,91 @@ extension EquipmentAssetExtension on Equipment {
     }
   }
 
+  bool get isActionable {
+    switch (esp32Id) {
+      case 'LED':
+      case 'RGB_LED':
+      case 'FAN':
+      case 'LCD_DISPLAY':
+      case 'BUZZER':
+      case 'WINDOW_SERVO':
+      case 'DOOR_SERVO':
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  List<int>? get defaultRangeValues {
+    switch (esp32Id) {
+      case 'FAN':
+        return [10, 255];
+      case 'BUZZER':
+        return [50, 12000];
+      case 'WINDOW_SERVO':
+      case 'DOOR_SERVO':
+        return [0, 176];
+      default:
+        return null;
+    }
+  }
+
+  dynamic get defaultOffValue {
+    switch (esp32Id) {
+      case 'LED':
+        return 'LOW';
+      case 'RGB_LED':
+        return 'LOW';
+      case 'FAN':
+        return 0;
+      case 'BUZZER':
+        return 0;
+      case 'LCD_DISPLAY':
+        return "";
+      case 'WINDOW_SERVO':
+      case 'DOOR_SERVO':
+        return 0;
+      default:
+        return null;
+    }
+  }
+
+  Color get colorOn {
+    switch (isActionable) {
+      case true:
+        return Constants.pickle;
+      case false:
+        switch (esp32Id) {
+          case 'TEMP_SENSOR':
+          case 'HUMIDITY_SENSOR':
+            return Constants.babyBlue;
+          case 'GAS_SENSOR':
+          case 'SMOKE_SENSOR':
+          case 'MOTION_SENSOR':
+            return Constants.tomato;
+          default:
+            return Constants.pickle;
+        }
+    }
+  }
+
+  Color get colorOff {
+    switch (isActionable) {
+      case true:
+        return Constants.tomato;
+      case false:
+        switch (esp32Id) {
+          case 'GAS_SENSOR':
+          case 'SMOKE_SENSOR':
+          case 'MOTION_SENSOR':
+            return Constants.neutral;
+          default:
+            return Constants.tomato;
+        }
+    }
+  }
+
+/*
   Color get colorOn {
     switch (esp32Id) {
       case 'LED':
@@ -163,7 +248,7 @@ extension EquipmentAssetExtension on Equipment {
         return Constants.tomato;
     }
   }
-
+*/
   String get imageAssetPath {
     return equipmentAsset.assetPath;
   }

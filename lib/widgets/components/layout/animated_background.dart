@@ -17,6 +17,7 @@ class AnimatedBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Constants.lighter2,
         resizeToAvoidBottomInset: false,
         body: Stack(
           children: [

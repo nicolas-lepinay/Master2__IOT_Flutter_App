@@ -28,6 +28,7 @@ class Constants {
   static const Color neutral = Color(0xFFAEB7D3);
   static const Color light = Color(0xFFD9DFE8); // ou 0xFFACB1C3
   static const Color lighter = Color(0xFFE2E6EE);
+  static const Color lighter2 = Color(0xFFF2F4F9);
   static const Color lightest = Color(0xFFF7F9FC);
   static const Color white = Color(0xFFFFFFFF);
 

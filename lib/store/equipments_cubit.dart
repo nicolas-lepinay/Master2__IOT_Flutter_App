@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:arduino_iot_app/models/schema/equipment.dart';
 import 'package:arduino_iot_app/repository/global_repository.dart';
@@ -6,8 +7,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:arduino_iot_app/services/mqtt_client.dart';
 import 'package:arduino_iot_app/models/exceptions/apiException.dart';
 import 'package:arduino_iot_app/utils/toast_helper.dart';
-
-import '../utils/constants.dart';
+import 'package:arduino_iot_app/utils/constants.dart';
 
 @injectable
 class EquipmentsCubit extends Cubit<EquipmentsState> {
@@ -21,7 +21,7 @@ class EquipmentsCubit extends Cubit<EquipmentsState> {
   }
 
   // Map pour définir quels équipements afficher par onglet
-  final Map<int, List<String>> tabFilters = {
+  final Map<int, List<String>> _tabFilters = {
     0: [
       'LED',
       'RGB_LED',
@@ -50,9 +50,24 @@ class EquipmentsCubit extends Cubit<EquipmentsState> {
 
   void _filterEquipments(int tab) {
     final filteredItems = state.equipments.where((e) {
-      return tabFilters[tab]?.contains(e.esp32Id) ?? false;
+      return _tabFilters[tab]?.contains(e.esp32Id) ?? false;
     }).toList();
     emit(state.copyWith(filteredEquipments: filteredItems, currentTab: tab));
+  }
+
+  void _updateEquipmentLocally({
+    required Equipment oldItem,
+    required Equipment newItem,
+  }) {
+    emit(state.copyWith(
+      equipments: state.equipments.map((e) {
+        return e.id == oldItem.id ? newItem : e;
+      }).toList(),
+    ));
+  }
+
+  void _toastError(String msg) {
+    ToastHelper.toast(msg, backgroundColor: Constants.tomato.withOpacity(0.9));
   }
 
   void changeTab(int tab) {
@@ -68,37 +83,27 @@ class EquipmentsCubit extends Cubit<EquipmentsState> {
     try {
       // 1️⃣ Changer le STATE local
       final updatedEquipment = equipment.copyWith(state: !equipment.state);
-      emit(state.copyWith(
-        equipments: state.equipments.map((e) {
-          return e.id == equipment.id ? updatedEquipment : e;
-        }).toList(),
-      ));
+      _updateEquipmentLocally(oldItem: equipment, newItem: updatedEquipment);
       // 2️⃣ Mettre à jour l'objet en base de données
       await repository.updateEquipmentState(updatedEquipment);
-      // 3️⃣ En cas d'erreur, reset le STATE local
     } on ApiException catch (e) {
-      ToastHelper.toast(
-        'Oops ! Une erreur est survenue (${e.statusCode})',
-        backgroundColor: Constants.tomato.withOpacity(0.9),
-      );
-      emit(state.copyWith(
-        equipments: state.equipments.map((e) {
-          return e.id == equipment.id ? equipment : e;
-        }).toList(),
-      ));
+      // 3️⃣ En cas d'erreur, reset le STATE local (restore equipment)
+      _updateEquipmentLocally(oldItem: equipment, newItem: equipment);
+      _toastError('Oops ! Une erreur est survenue (${e.statusCode})');
     } catch (e) {
-      ToastHelper.toast(
-        'Aïe ! Une erreur inconnue est survenue.',
-        backgroundColor: Constants.tomato.withOpacity(0.9),
-      );
-      emit(state.copyWith(
-        equipments: state.equipments.map((e) {
-          return e.id == equipment.id ? equipment : e;
-        }).toList(),
-      ));
+      // 3️⃣
+      _updateEquipmentLocally(oldItem: equipment, newItem: equipment);
+      _toastError('Aïe ! Une erreur inconnue est survenue.');
     } finally {
       _filterEquipments(state.currentTab);
     }
+  }
+
+  // A la fermeture du cubit, annuler les abonnements aux streams
+  @override
+  Future<void> close() {
+    _subscriptions.dispose();
+    return super.close();
   }
 }
 

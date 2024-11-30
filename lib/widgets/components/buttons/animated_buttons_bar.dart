@@ -45,7 +45,7 @@ class _AnimatedButtonsBarState extends State<AnimatedButtonsBar> {
       width: double.infinity,
       height: containerHeight,
       decoration: BoxDecoration(
-        color: Constants.lightest.withOpacity(0.3),
+        color: Constants.lightest.withOpacity(0.4),
         borderRadius: BorderRadius.circular(30),
       ),
       child: Padding(
