@@ -40,6 +40,7 @@ class Constants {
   static const Color babyBlue = Color(0xFF6ACEF9);
 
   // MEASURES
+  static const double paddingSmall = 20;
   static const double paddingMedium = 30;
 
   // RIVE ASSETS

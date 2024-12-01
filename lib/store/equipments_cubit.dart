@@ -1,3 +1,4 @@
+import 'package:arduino_iot_app/utils/extensions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:arduino_iot_app/models/schema/equipment.dart';
@@ -9,7 +10,7 @@ import 'package:arduino_iot_app/models/exceptions/apiException.dart';
 import 'package:arduino_iot_app/utils/toast_helper.dart';
 import 'package:arduino_iot_app/utils/constants.dart';
 
-@injectable
+@singleton
 class EquipmentsCubit extends Cubit<EquipmentsState> {
   final GlobalRepository repository;
   final MQTT mqtt;
@@ -66,13 +67,39 @@ class EquipmentsCubit extends Cubit<EquipmentsState> {
     ));
   }
 
+  Future<void> _updateEquipment({
+    required Equipment oldItem,
+    required Equipment newItem,
+  }) async {
+    try {
+      // 1️⃣ Changer l'objet local
+      _updateEquipmentLocally(oldItem: oldItem, newItem: newItem);
+      // 2️⃣ Mettre à jour l'objet en base de données
+      await repository.updateEquipment(newItem);
+    } on ApiException catch (e) {
+      // 3️⃣ En cas d'erreur, reset l'objet local
+      _updateEquipmentLocally(oldItem: oldItem, newItem: oldItem);
+      _toastError('Oops ! Une erreur est survenue (${e.statusCode})');
+    } catch (e) {
+      // 3️⃣
+      _updateEquipmentLocally(oldItem: oldItem, newItem: oldItem);
+      _toastError('Aïe ! Une erreur inconnue est survenue.');
+    } finally {
+      _filterEquipments(state.currentTab);
+    }
+  }
+
   void _toastError(String msg) {
     ToastHelper.toast(msg, backgroundColor: Constants.tomato.withOpacity(0.9));
   }
 
+  void _toastSuccess(String msg) {
+    ToastHelper.toast(' $msg ');
+  }
+
   void changeTab(int tab) {
     _filterEquipments(tab);
-    emit(state.copyWith(currentIndex: 0));
+    emit(state.copyWith(currentIndex: 0, currentTab: tab));
   }
 
   void updateIndex(int index) {
@@ -80,23 +107,28 @@ class EquipmentsCubit extends Cubit<EquipmentsState> {
   }
 
   Future<void> toggleEquipmentState(Equipment equipment) async {
-    try {
-      // 1️⃣ Changer le STATE local
-      final updatedEquipment = equipment.copyWith(state: !equipment.state);
-      _updateEquipmentLocally(oldItem: equipment, newItem: updatedEquipment);
-      // 2️⃣ Mettre à jour l'objet en base de données
-      await repository.updateEquipmentState(updatedEquipment);
-    } on ApiException catch (e) {
-      // 3️⃣ En cas d'erreur, reset le STATE local (restore equipment)
-      _updateEquipmentLocally(oldItem: equipment, newItem: equipment);
-      _toastError('Oops ! Une erreur est survenue (${e.statusCode})');
-    } catch (e) {
-      // 3️⃣
-      _updateEquipmentLocally(oldItem: equipment, newItem: equipment);
-      _toastError('Aïe ! Une erreur inconnue est survenue.');
-    } finally {
-      _filterEquipments(state.currentTab);
-    }
+    final updatedState = !equipment.state;
+    final updatedEquipment = equipment.copyWith(state: updatedState);
+
+    // Publier le message MQTT approprié
+    final topic = 'SET/${equipment.esp32Id}';
+    final payload =
+        updatedState ? (equipment.value ?? "") : '${equipment.defaultOffValue}';
+
+    // Mettre à jour l'équipement et publier le message
+    await _updateEquipment(oldItem: equipment, newItem: updatedEquipment);
+
+    // Publier le message MQTT après la mise à jour
+    mqtt.publishMessage(topic, payload);
+  }
+
+  Future<void> updateEquipmentValue({
+    required Equipment equipment,
+    required String value,
+  }) async {
+    final updatedEquipment = equipment.copyWith(value: value);
+    _updateEquipment(oldItem: equipment, newItem: updatedEquipment);
+    _toastSuccess("L'équipement a été mis à jour.");
   }
 
   // A la fermeture du cubit, annuler les abonnements aux streams

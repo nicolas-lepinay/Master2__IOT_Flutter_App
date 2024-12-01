@@ -135,15 +135,15 @@ extension EquipmentExtension on Equipment {
     }
   }
 
-  List<int>? get defaultRangeValues {
+  List<double>? get defaultRangeValues {
     switch (esp32Id) {
       case 'FAN':
-        return [10, 255];
+        return [0, 255];
       case 'BUZZER':
-        return [50, 12000];
+        return [0, 12000];
       case 'WINDOW_SERVO':
       case 'DOOR_SERVO':
-        return [0, 176];
+        return [0, 180];
       default:
         return null;
     }
@@ -152,17 +152,14 @@ extension EquipmentExtension on Equipment {
   dynamic get defaultOffValue {
     switch (esp32Id) {
       case 'LED':
-        return 'LOW';
       case 'RGB_LED':
         return 'LOW';
-      case 'FAN':
-        return 0;
-      case 'BUZZER':
-        return 0;
       case 'LCD_DISPLAY':
         return "";
       case 'WINDOW_SERVO':
       case 'DOOR_SERVO':
+      case 'FAN':
+      case 'BUZZER':
         return 0;
       default:
         return null;
@@ -204,51 +201,6 @@ extension EquipmentExtension on Equipment {
     }
   }
 
-/*
-  Color get colorOn {
-    switch (esp32Id) {
-      case 'LED':
-      case 'RGB_LED':
-      case 'FAN':
-      case 'LCD_DISPLAY':
-      case 'BUZZER':
-      case 'WINDOW_SERVO':
-      case 'DOOR_SERVO':
-        return Constants.pickle;
-      case 'TEMP_SENSOR':
-      case 'HUMIDITY_SENSOR':
-        return Constants.babyBlue;
-      case 'GAS_SENSOR':
-      case 'SMOKE_SENSOR':
-      case 'MOTION_SENSOR':
-        return Constants.tomato;
-      default:
-        return Constants.pickle;
-    }
-  }
-
-  Color get colorOff {
-    switch (esp32Id) {
-      case 'LED':
-      case 'RGB_LED':
-      case 'FAN':
-      case 'LCD_DISPLAY':
-      case 'BUZZER':
-      case 'WINDOW_SERVO':
-      case 'DOOR_SERVO':
-        return Constants.tomato;
-      case 'TEMP_SENSOR':
-      case 'HUMIDITY_SENSOR':
-        return Constants.tomato;
-      case 'GAS_SENSOR':
-      case 'SMOKE_SENSOR':
-      case 'MOTION_SENSOR':
-        return Constants.neutral;
-      default:
-        return Constants.tomato;
-    }
-  }
-*/
   String get imageAssetPath {
     return equipmentAsset.assetPath;
   }

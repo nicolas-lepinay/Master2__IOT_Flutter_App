@@ -1,50 +1,38 @@
 import 'package:flutter/material.dart';
-
 import 'package:arduino_iot_app/utils/constants.dart';
+import 'package:arduino_iot_app/widgets/components/buttons/ui_button_large.dart';
+import 'package:arduino_iot_app/widgets/components/buttons/ui_button_small.dart';
 
 class UIButton extends StatelessWidget {
+  final String size;
   final String label;
+  final Color color;
   final VoidCallback callback;
   final bool isLoading;
 
   const UIButton({
     super.key,
+    this.size = 'large',
     required this.label,
+    this.color = Constants.tomato,
     required this.callback,
     this.isLoading = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      key: Key('key--${label.replaceAll(" ", "_")}'),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Constants.tomato,
-        minimumSize: const Size(double.infinity, 60),
-        padding: const EdgeInsets.symmetric(vertical: 18),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        elevation: 10,
-        shadowColor: Constants.tomato.withOpacity(0.5), // Couleur de l'ombre
-      ),
-      onPressed: callback,
-      child: isLoading
-          ? const SizedBox(
-              height: 18,
-              width: 18,
-              child: CircularProgressIndicator(
-                  color: Colors.white, strokeWidth: 3),
-            )
-          : Text(
-              label,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 1,
-              ),
-            ),
-    );
+    return size == 'small'
+        ? UIButtonSmall(
+            label: label,
+            color: color,
+            callback: callback,
+            isLoading: isLoading,
+          )
+        : UIButtonLarge(
+            label: label,
+            color: color,
+            callback: callback,
+            isLoading: isLoading,
+          );
   }
 }

@@ -9,13 +9,17 @@ import 'package:arduino_iot_app/widgets/components/buttons/animated_buttons_bar.
 import 'package:arduino_iot_app/widgets/components/misc/localization.dart';
 import 'package:arduino_iot_app/widgets/components/buttons/animated_card.dart';
 import 'package:arduino_iot_app/store/equipments_cubit.dart';
-import 'package:arduino_iot_app/injection/get_it.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final CarouselSliderController _carouselController =
       CarouselSliderController();
 
@@ -40,22 +44,27 @@ class HomePage extends StatelessWidget {
                   AnimatedButtonsBar(
                     outerPadding: Constants.paddingMedium,
                     tabNames: const ["Actions", "Données", "Routines"],
+                    initialTab: state.currentTab,
                     onTabSelected: [
                       () {
                         context.read<EquipmentsCubit>().changeTab(0);
-                        // _carouselController.animateToPage(
-                        //   0,
-                        //   duration: const Duration(seconds: 1),
-                        //   curve: Curves.easeIn,
-                        // );
+                        Future.delayed(const Duration(milliseconds: 100), () {
+                          _carouselController.animateToPage(
+                            0,
+                            duration: const Duration(milliseconds: 600),
+                            curve: Curves.easeInOutSine,
+                          );
+                        });
                       },
                       () {
                         context.read<EquipmentsCubit>().changeTab(1);
-                        // _carouselController.animateToPage(
-                        //   0,
-                        //   duration: const Duration(seconds: 1),
-                        //   curve: Curves.easeIn,
-                        // );
+                        Future.delayed(const Duration(milliseconds: 100), () {
+                          _carouselController.animateToPage(
+                            0,
+                            duration: const Duration(milliseconds: 600),
+                            curve: Curves.easeInOutSine,
+                          );
+                        });
                       },
                       () => print("Routines selected."),
                     ],
@@ -95,6 +104,7 @@ class HomePage extends StatelessWidget {
                       options: CarouselOptions(
                         height: double.infinity,
                         viewportFraction: 1.1,
+                        initialPage: state.currentIndex,
                         onPageChanged: (index, reason) {
                           context.read<EquipmentsCubit>().updateIndex(index);
                         },

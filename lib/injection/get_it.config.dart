@@ -31,7 +31,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i226.MQTT>(() => _i226.MQTT());
     gh.lazySingleton<_i461.GlobalRepository>(
         () => _i461.GlobalRepository(gh<_i233.GlobalDataSource>()));
-    gh.factory<_i269.EquipmentsCubit>(() => _i269.EquipmentsCubit(
+    gh.singleton<_i269.EquipmentsCubit>(() => _i269.EquipmentsCubit(
           gh<_i461.GlobalRepository>(),
           gh<_i226.MQTT>(),
         ));

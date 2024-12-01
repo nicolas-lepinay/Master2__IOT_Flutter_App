@@ -7,18 +7,21 @@ import 'package:arduino_iot_app/widgets/components/misc/colour_filter.dart';
 
 class AnimatedBackground extends StatelessWidget {
   final Widget child;
+  final AppBar? appBar;
 
   const AnimatedBackground({
     super.key,
     required this.child,
+    this.appBar,
   });
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: appBar,
         backgroundColor: Constants.lighter2,
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         body: Stack(
           children: [
             // BACKGROUND (SPLINE)

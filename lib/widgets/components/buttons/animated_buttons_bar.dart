@@ -13,6 +13,7 @@ class AnimatedButtonsBar extends StatefulWidget {
 
   final List<String> tabNames;
   final List<VoidCallback> onTabSelected;
+  final int initialTab;
 
   const AnimatedButtonsBar({
     super.key,
@@ -21,6 +22,7 @@ class AnimatedButtonsBar extends StatefulWidget {
     this.buttonHeight = 50.0,
     required this.tabNames,
     required this.onTabSelected,
+    required this.initialTab,
   });
 
   @override
@@ -29,7 +31,13 @@ class AnimatedButtonsBar extends StatefulWidget {
 
 class _AnimatedButtonsBarState extends State<AnimatedButtonsBar> {
   // Index du bouton sélectionné :
-  int selectedIndex = 0;
+  late int selectedIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedIndex = widget.initialTab; // Initialise avec l'index fourni
+  }
 
   @override
   Widget build(BuildContext context) {

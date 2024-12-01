@@ -11,7 +11,7 @@ class MQTT {
   late final MqttServerClient mqttClient;
 
   MQTT() {
-    //_init();
+    _init();
   }
 
   void _init() {
@@ -50,5 +50,11 @@ class MQTT {
     }).catchError((e) {
       debugPrint('MQTT client connection error: $e');
     });
+  }
+
+  void publishMessage(String topic, String payload) {
+    final builder = MqttClientPayloadBuilder();
+    builder.addString(payload);
+    mqttClient.publishMessage(topic, MqttQos.atLeastOnce, builder.payload!);
   }
 }

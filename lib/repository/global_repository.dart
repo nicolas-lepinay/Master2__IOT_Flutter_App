@@ -38,7 +38,7 @@ class GlobalRepository {
     }
   }
 
-  Future<void> updateEquipmentState(Equipment equipment) async {
+  Future<void> updateEquipment(Equipment equipment) async {
     try {
       await dataSource.updateEquipment(equipment);
       //_fetchEquipments(); // Optionnel : recharger les équipements

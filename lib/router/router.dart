@@ -25,10 +25,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/home',
       builder: (BuildContext context, GoRouterState state) {
-        return BlocProvider(
-          create: (_) => getIt<EquipmentsCubit>(),
-          child: HomePage(),
-        );
+        return HomePage();
       },
     ),
     GoRoute(
