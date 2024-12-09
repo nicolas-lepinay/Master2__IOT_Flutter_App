@@ -60,7 +60,7 @@ class DetailsPage extends StatelessWidget {
                 const SizedBox(height: 50),
                 //const Spacer(),
                 equipment.defaultRangeValues != null
-                    ? DisplayColorPicker(equipment: equipment)
+                    ? DisplaySlider(equipment: equipment)
                     : const SizedBox(),
                 equipment.esp32Id == 'LCD_DISPLAY'
                     ? DisplayTextArea(equipment: equipment)
