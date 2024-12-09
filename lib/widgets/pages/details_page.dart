@@ -10,6 +10,7 @@ import 'package:arduino_iot_app/widgets/components/buttons/ui_button.dart';
 import 'package:arduino_iot_app/store/equipments_cubit.dart';
 import 'package:arduino_iot_app/widgets/components/textfields/ui_text_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:go_router/go_router.dart';
 
 class DetailsPage extends StatelessWidget {
@@ -59,12 +60,14 @@ class DetailsPage extends StatelessWidget {
                 const SizedBox(height: 50),
                 //const Spacer(),
                 equipment.defaultRangeValues != null
-                    ? DisplaySlider(equipment: equipment)
+                    ? DisplayColorPicker(equipment: equipment)
                     : const SizedBox(),
                 equipment.esp32Id == 'LCD_DISPLAY'
                     ? DisplayTextArea(equipment: equipment)
                     : const SizedBox(),
-                //const Spacer(flex: 3),
+                equipment.esp32Id == 'RGB_LED'
+                    ? DisplayColorPicker(equipment: equipment)
+                    : const SizedBox(),
               ],
             ),
           ),
@@ -222,7 +225,9 @@ class DisplayImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.width / 2,
+      height: equipment.esp32Id == 'RGB_LED'
+          ? MediaQuery.of(context).size.width / 4
+          : MediaQuery.of(context).size.width / 2,
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.contain,
@@ -307,6 +312,72 @@ class _DisplaySliderState extends State<DisplaySlider> {
             await context.read<EquipmentsCubit>().updateEquipmentValue(
                   equipment: widget.equipment,
                   value: _currentValue!.toStringAsFixed(0),
+                );
+            context.pop();
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class DisplayColorPicker extends StatefulWidget {
+  const DisplayColorPicker({
+    super.key,
+    required this.equipment,
+  });
+
+  final Equipment equipment;
+
+  @override
+  State<DisplayColorPicker> createState() => _DisplayColorPickerState();
+}
+
+class _DisplayColorPickerState extends State<DisplayColorPicker> {
+  late Color _currentColor;
+
+  @override
+  void initState() {
+    super.initState();
+    final rgbValues =
+        widget.equipment.value?.split(',').map(int.parse).toList();
+    _currentColor = rgbValues != null && rgbValues.length == 3
+        ? Color.fromARGB(255, rgbValues[0], rgbValues[1], rgbValues[2])
+        : Colors.white;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding:
+              const EdgeInsets.symmetric(horizontal: Constants.paddingSmall),
+          child: ColorPicker(
+            pickerColor: _currentColor,
+            enableAlpha: false,
+            labelTypes: const [],
+            pickerAreaBorderRadius: const BorderRadius.all(Radius.circular(10)),
+            //colorPickerWidth: 200,
+            pickerAreaHeightPercent: 0.4,
+            onColorChanged: (color) {
+              setState(() {
+                _currentColor = color;
+              });
+            },
+          ),
+        ),
+        const SizedBox(height: 25),
+        UIButton(
+          size: 'small',
+          label: "Appliquer",
+          color: Constants.periwinkle,
+          callback: () async {
+            final rgbValue =
+                '${_currentColor.red},${_currentColor.green},${_currentColor.blue}';
+            await context.read<EquipmentsCubit>().updateEquipmentValue(
+                  equipment: widget.equipment,
+                  value: rgbValue,
                 );
             context.pop();
           },

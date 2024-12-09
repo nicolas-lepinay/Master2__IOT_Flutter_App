@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
-
 import 'package:arduino_iot_app/utils/settings.dart';
 
 @lazySingleton
@@ -34,8 +33,8 @@ class MQTT {
       if (mqttClient.connectionStatus!.state == MqttConnectionState.connected) {
         debugPrint('MQTT client connected successfully');
         // S'abonner aux topics
-        mqttClient.subscribe('KEVIN/+/state', MqttQos.atLeastOnce);
-        mqttClient.subscribe('KEVIN/+/value', MqttQos.atLeastOnce);
+        mqttClient.subscribe('SET/#', MqttQos.atLeastOnce);
+        //mqttClient.subscribe('KEVIN/+/value', MqttQos.atLeastOnce);
 
         mqttClient.updates!.listen((List<MqttReceivedMessage<MqttMessage>> c) {
           final MqttPublishMessage message = c[0].payload as MqttPublishMessage;
@@ -53,6 +52,11 @@ class MQTT {
   }
 
   void publishMessage(String topic, String payload) {
+    if (mqttClient.connectionStatus!.state != MqttConnectionState.connected) {
+      debugPrint('Cannot publish message, MQTT client is not connected.');
+      return;
+    }
+
     final builder = MqttClientPayloadBuilder();
     builder.addString(payload);
     mqttClient.publishMessage(topic, MqttQos.atLeastOnce, builder.payload!);

@@ -50,6 +50,7 @@ dependencies:
   mqtt_client: ^10.5.1
   fluttertoast: ^8.2.8
   foundation: ^0.0.5
+  flutter_colorpicker: ^1.1.0
 
 dev_dependencies:
   flutter_test:

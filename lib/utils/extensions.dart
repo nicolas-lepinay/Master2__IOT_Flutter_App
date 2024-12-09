@@ -152,8 +152,9 @@ extension EquipmentExtension on Equipment {
   dynamic get defaultOffValue {
     switch (esp32Id) {
       case 'LED':
-      case 'RGB_LED':
         return 'LOW';
+      case 'RGB_LED':
+        return '0, 0, 0';
       case 'LCD_DISPLAY':
         return "";
       case 'WINDOW_SERVO':
