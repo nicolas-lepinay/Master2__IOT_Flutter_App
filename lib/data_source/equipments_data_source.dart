@@ -7,14 +7,17 @@ import 'package:injectable/injectable.dart';
 import 'package:arduino_iot_app/models/exceptions/apiException.dart';
 
 @lazySingleton
-class GlobalDataSource {
+class EquipmentsDataSource {
   Future<List<Equipment>> getEquipments() async {
     try {
       final response = await http.get(Uri.parse(
           '${Settings.API_URL}/${Settings.EQUIPMENTS_ENDPOINT}/house/${Settings.HOUSE_ID}'));
 
       if (response.statusCode != 200) {
-        throw ('Impossible de récupérer les équipements.');
+        throw ApiException(
+          "Impossible de récupérer les équipements.",
+          response.statusCode,
+        );
       }
 
       final List<dynamic> jsonData = json.decode(response.body);

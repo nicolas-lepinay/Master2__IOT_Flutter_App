@@ -11,10 +11,13 @@
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
-import '../data_source/global_data_source.dart' as _i233;
-import '../repository/global_repository.dart' as _i461;
+import '../data_source/equipments_data_source.dart' as _i884;
+import '../data_source/users_data_source.dart' as _i606;
+import '../repository/equipments_repository.dart' as _i604;
+import '../repository/users_repository.dart' as _i146;
 import '../services/mqtt_client.dart' as _i226;
 import '../store/equipments_cubit.dart' as _i269;
+import '../store/login_cubit.dart' as _i299;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -27,12 +30,18 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
-    gh.lazySingleton<_i233.GlobalDataSource>(() => _i233.GlobalDataSource());
     gh.lazySingleton<_i226.MQTT>(() => _i226.MQTT());
-    gh.lazySingleton<_i461.GlobalRepository>(
-        () => _i461.GlobalRepository(gh<_i233.GlobalDataSource>()));
+    gh.lazySingleton<_i884.EquipmentsDataSource>(
+        () => _i884.EquipmentsDataSource());
+    gh.lazySingleton<_i606.UsersDataSource>(() => _i606.UsersDataSource());
+    gh.lazySingleton<_i146.UsersRepository>(
+        () => _i146.UsersRepository(gh<_i606.UsersDataSource>()));
+    gh.singleton<_i299.LoginCubit>(
+        () => _i299.LoginCubit(gh<_i146.UsersRepository>()));
+    gh.lazySingleton<_i604.EquipmentsRepository>(
+        () => _i604.EquipmentsRepository(gh<_i884.EquipmentsDataSource>()));
     gh.singleton<_i269.EquipmentsCubit>(() => _i269.EquipmentsCubit(
-          gh<_i461.GlobalRepository>(),
+          gh<_i604.EquipmentsRepository>(),
           gh<_i226.MQTT>(),
         ));
     return this;

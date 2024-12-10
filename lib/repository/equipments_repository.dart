@@ -1,15 +1,15 @@
-import 'package:arduino_iot_app/data_source/global_data_source.dart';
+import 'package:arduino_iot_app/data_source/equipments_data_source.dart';
 import 'package:arduino_iot_app/models/schema/equipment.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
-class GlobalRepository {
+class EquipmentsRepository {
   late final List<Future<void> Function()> futuresToWait;
-  final GlobalDataSource dataSource;
+  final EquipmentsDataSource dataSource;
 
-  GlobalRepository(this.dataSource) {
+  EquipmentsRepository(this.dataSource) {
     futuresToWait = [_fetchEquipments];
     //_init();
     _startPeriodicUpdates(); // Démarre les mises à jour périodiques

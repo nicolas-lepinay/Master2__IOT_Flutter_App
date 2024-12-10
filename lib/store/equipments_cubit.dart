@@ -1,8 +1,7 @@
 import 'package:arduino_iot_app/utils/extensions.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:arduino_iot_app/models/schema/equipment.dart';
-import 'package:arduino_iot_app/repository/global_repository.dart';
+import 'package:arduino_iot_app/repository/equipments_repository.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:arduino_iot_app/services/mqtt_client.dart';
@@ -12,11 +11,12 @@ import 'package:arduino_iot_app/utils/constants.dart';
 
 @singleton
 class EquipmentsCubit extends Cubit<EquipmentsState> {
-  final GlobalRepository repository;
+  final EquipmentsRepository repository;
   final MQTT mqtt;
   final _subscriptions = CompositeSubscription();
 
-  EquipmentsCubit(this.repository, this.mqtt) : super(EquipmentsState.initial()) {
+  EquipmentsCubit(this.repository, this.mqtt)
+      : super(EquipmentsState.initial()) {
     _subscribe();
   }
 
@@ -111,7 +111,8 @@ class EquipmentsCubit extends Cubit<EquipmentsState> {
 
     // Publier le message MQTT approprié
     final topic = 'SET/${equipment.esp32Id}';
-    final payload = updatedState ? (equipment.value ?? "") : '${equipment.defaultOffValue}';
+    final payload =
+        updatedState ? (equipment.value ?? "") : '${equipment.defaultOffValue}';
 
     // Mettre à jour l'équipement et publier le message
     await _updateEquipment(oldItem: equipment, newItem: updatedEquipment);

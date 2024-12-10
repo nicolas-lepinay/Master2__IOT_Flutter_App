@@ -12,15 +12,6 @@ class Constants {
 
   // COLOURS
   // ---- GREYS
-  /*
-  static const Color darkestGrey = Color(0xFF1F252F);
-  static const Color darkGrey = Color(0xFFB7B4BB);
-  static const Color neutralGrey = Color(0xFFE1E5E8);
-  static const Color lightGrey = Color(0xFFF5F4F4);
-  static const Color lightestGrey = Color(0xFFF7F8FA);
-  static const Color offWhite = Color(0xFFF7F8FA);
-  */
-  // ---- GREYS v2
   static const Color black = Color(0xFF000000);
   static const Color darkest = Color(0xFF373248); // Formely "eggplant"
   static const Color darker = Color(0xFF47516B);
@@ -48,8 +39,9 @@ class Constants {
 
   // TEXTS
   static const String landing__title = "Contrôlez votre maison à distance";
-  static const String landing__description =
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor.";
+  //static const String landing__description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor.";
   static const String home__title = "Ma maison";
   static const String home__subtitle = "Mes équipements";
+  static const String login = "Connexion";
+  static const String loginWithQrCode = "Se connecter avec un QR Code";
 }

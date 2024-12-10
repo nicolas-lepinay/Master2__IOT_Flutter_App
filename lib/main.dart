@@ -1,4 +1,5 @@
 import 'package:arduino_iot_app/store/equipments_cubit.dart';
+import 'package:arduino_iot_app/store/login_cubit.dart';
 import 'package:arduino_iot_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,6 +26,9 @@ void main() {
       providers: [
         BlocProvider<EquipmentsCubit>(
           create: (context) => getIt<EquipmentsCubit>(),
+        ),
+        BlocProvider<LoginCubit>(
+          create: (context) => getIt<LoginCubit>(),
         ),
       ],
       child: const MyApp(),
