@@ -16,8 +16,7 @@ class EquipmentsCubit extends Cubit<EquipmentsState> {
   final MQTT mqtt;
   final _subscriptions = CompositeSubscription();
 
-  EquipmentsCubit(this.repository, this.mqtt)
-      : super(EquipmentsState.initial()) {
+  EquipmentsCubit(this.repository, this.mqtt) : super(EquipmentsState.initial()) {
     _subscribe();
   }
 
@@ -36,7 +35,7 @@ class EquipmentsCubit extends Cubit<EquipmentsState> {
       'TEMP_SENSOR',
       'HUMIDITY_SENSOR',
       'GAS_SENSOR',
-      'SMOKE_SENSOR',
+      'STEAM_SENSOR',
       'MOTION_SENSOR',
     ],
   };
@@ -112,8 +111,7 @@ class EquipmentsCubit extends Cubit<EquipmentsState> {
 
     // Publier le message MQTT approprié
     final topic = 'SET/${equipment.esp32Id}';
-    final payload =
-        updatedState ? (equipment.value ?? "") : '${equipment.defaultOffValue}';
+    final payload = updatedState ? (equipment.value ?? "") : '${equipment.defaultOffValue}';
 
     // Mettre à jour l'équipement et publier le message
     await _updateEquipment(oldItem: equipment, newItem: updatedEquipment);

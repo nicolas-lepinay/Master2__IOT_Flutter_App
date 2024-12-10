@@ -1,5 +1,6 @@
 import 'package:arduino_iot_app/data_source/global_data_source.dart';
 import 'package:arduino_iot_app/models/schema/equipment.dart';
+import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:injectable/injectable.dart';
 
@@ -10,7 +11,8 @@ class GlobalRepository {
 
   GlobalRepository(this.dataSource) {
     futuresToWait = [_fetchEquipments];
-    _init();
+    //_init();
+    _startPeriodicUpdates(); // Démarre les mises à jour périodiques
   }
 
   // Equipments
@@ -28,14 +30,45 @@ class GlobalRepository {
     }
   }
 
-  Future<List<Equipment>> _fetchEquipments() async {
+  Future<void> _fetchEquipments() async {
     try {
-      List<Equipment> equipments = await dataSource.getEquipments();
-      _equipmentsController.add(equipments);
-      return equipments;
+      final newEquipments = await dataSource.getEquipments();
+      final currentEquipments = _equipmentsController.valueOrNull ?? [];
+
+      // Mettre à jour uniquement les équipements existants
+      final updatedEquipments = currentEquipments.map((currentEquipment) {
+        final matchingNewEquipment = newEquipments.firstWhere(
+          (newEquipment) => newEquipment.id == currentEquipment.id,
+          orElse: () => currentEquipment,
+        );
+
+        // Mettre à jour les champs uniquement si nécessaire
+        return currentEquipment.copyWith(
+          state: matchingNewEquipment.state,
+          value: matchingNewEquipment.value,
+        );
+      }).toList();
+
+      // Ajouter les nouveaux équipements qui ne sont pas encore dans la liste actuelle
+      final missingEquipments = newEquipments.where((newEquipment) {
+        return !currentEquipments.any((e) => e.id == newEquipment.id);
+      }).toList();
+
+      _equipmentsController.add([...updatedEquipments, ...missingEquipments]);
     } catch (e) {
+      debugPrint('Erreur lors de la récupération des équipements : $e');
       rethrow;
     }
+  }
+
+  void _startPeriodicUpdates() {
+    Stream.periodic(const Duration(seconds: 5)).listen((_) async {
+      try {
+        await _fetchEquipments();
+      } catch (e) {
+        rethrow;
+      }
+    });
   }
 
   Future<void> updateEquipment(Equipment equipment) async {

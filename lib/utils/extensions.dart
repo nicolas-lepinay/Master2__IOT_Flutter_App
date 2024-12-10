@@ -25,7 +25,7 @@ extension EquipmentExtension on Equipment {
         return EquipmentAsset.humiditySensor;
       case 'GAS_SENSOR':
         return EquipmentAsset.gasSensor;
-      case 'SMOKE_SENSOR':
+      case 'STEAM_SENSOR':
         return EquipmentAsset.smokeSensor;
       case 'MOTION_SENSOR':
         return EquipmentAsset.motionSensor;
@@ -65,7 +65,7 @@ extension EquipmentExtension on Equipment {
         return Icons.water_drop;
       case 'GAS_SENSOR':
         return Icons.gas_meter;
-      case 'SMOKE_SENSOR':
+      case 'STEAM_SENSOR':
         return Icons.fireplace;
       case 'WINDOW_SERVO':
         return Icons.window_rounded;
@@ -94,7 +94,7 @@ extension EquipmentExtension on Equipment {
           case false:
             return 'Pas de gaz';
         }
-      case 'SMOKE_SENSOR':
+      case 'STEAM_SENSOR':
         switch (state) {
           case true:
             return 'Fumée détectée';
@@ -177,7 +177,7 @@ extension EquipmentExtension on Equipment {
           case 'HUMIDITY_SENSOR':
             return Constants.babyBlue;
           case 'GAS_SENSOR':
-          case 'SMOKE_SENSOR':
+          case 'STEAM_SENSOR':
           case 'MOTION_SENSOR':
             return Constants.tomato;
           default:
@@ -193,7 +193,7 @@ extension EquipmentExtension on Equipment {
       case false:
         switch (esp32Id) {
           case 'GAS_SENSOR':
-          case 'SMOKE_SENSOR':
+          case 'STEAM_SENSOR':
           case 'MOTION_SENSOR':
             return Constants.neutral;
           default:
