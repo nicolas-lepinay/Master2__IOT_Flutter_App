@@ -35,7 +35,7 @@ class UsersDataSource {
   Future<List<User>> getUsersByHouse(String houseId) async {
     try {
       final response = await http.get(Uri.parse(
-          '${Settings.API_URL}/${Settings.USERS_ENDPOINT}/${Settings.HOUSES_ENDPOINT}/$houseId'));
+          '${Settings.API_URL}/${Settings.USERS_ENDPOINT}/house/$houseId'));
 
       if (response.statusCode != 200) {
         throw ApiException(

@@ -47,7 +47,7 @@ class _AnimatedButtonsBarState extends State<AnimatedButtonsBar> {
     final double buttonWidth = (MediaQuery.of(context).size.width -
             (widget.outerPadding * 2) -
             (widget.innerPadding * 2)) /
-        3;
+        widget.tabNames.length;
 
     return Container(
       width: double.infinity,

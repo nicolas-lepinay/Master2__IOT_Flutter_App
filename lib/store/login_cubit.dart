@@ -1,23 +1,34 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:arduino_iot_app/models/schema/user.dart';
 import 'package:arduino_iot_app/repository/users_repository.dart';
 import 'package:injectable/injectable.dart';
+import 'package:rxdart/rxdart.dart';
 
-//TODO: UPDATE STATE TO BE ABLE TO EMIT NULL VALUES (ERROR MESSAGE)
-/*
-void updateBirthday(DateTime? birthday) {
-  emit(state.copyWith(birthday: () => birthday));
-}
-*/
-
-@singleton
+@injectable
 class LoginCubit extends Cubit<LoginState> {
   final UsersRepository userRepository;
+  //final _subscriptions = CompositeSubscription();
 
-  LoginCubit(this.userRepository) : super(LoginState.initial());
+  LoginCubit(this.userRepository) : super(LoginState.initial()) {
+    _subscribe();
+    debugPrint("CONSTRUCTOR");
+  }
+
+  void _subscribe() {
+    debugPrint("SUBSCRIBE");
+    /*
+    userRepository.userStream.listen((user) {
+      emit(state.copyWith(user: user));
+    }).addTo(_subscriptions);
+     */
+  }
 
   Future<void> login(String username, String password) async {
-    emit(LoginState.initial());
+    emit(state.copyWith(
+      isLoading: true,
+      errorMessage: () => null,
+    ));
     try {
       final user = await userRepository.login(username, password);
 
@@ -26,22 +37,29 @@ class LoginCubit extends Cubit<LoginState> {
         emit(state.copyWith(
           isLoading: false,
           user: user,
-          errorMessage: null,
         ));
       } else {
         // Identifiants invalides
         emit(state.copyWith(
           isLoading: false,
-          errorMessage: "Les identifiants sont invalides.",
+          errorMessage: () => "Les identifiants sont invalides.",
         ));
       }
     } catch (e) {
       // Erreur inconnue
       emit(state.copyWith(
         isLoading: false,
-        errorMessage: "Une erreur inconnue est survenue.",
+        errorMessage: () => "Une erreur inconnue est survenue.",
       ));
     }
+  }
+
+  // A la fermeture du cubit, annuler les abonnements aux streams
+  @override
+  Future<void> close() {
+    //_subscriptions.dispose();
+    //emit(LoginState.initial()); // Réinitialise le state avant fermeture
+    return super.close();
   }
 }
 
@@ -51,28 +69,26 @@ class LoginState {
   final String? errorMessage;
 
   LoginState({
-    required this.user,
+    this.user,
     required this.isLoading,
-    required this.errorMessage,
+    this.errorMessage,
   });
 
   factory LoginState.initial() {
     return LoginState(
-      user: null,
       isLoading: false,
-      errorMessage: null,
     );
   }
 
   LoginState copyWith({
     User? user,
     bool? isLoading,
-    String? errorMessage,
+    String? Function()? errorMessage,
   }) {
     return LoginState(
       user: user ?? this.user,
       isLoading: isLoading ?? this.isLoading,
-      errorMessage: errorMessage ?? this.errorMessage,
+      errorMessage: errorMessage != null ? errorMessage() : this.errorMessage,
     );
   }
 }

@@ -35,15 +35,18 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const AppBarActions(),
+                  AppBarActions(username: state.user?.username ?? 'toi !'),
                   const SizedBox(height: 30),
                   const H2(text: Constants.home__title),
                   const SizedBox(height: 5),
-                  const Localization(location: 'Pertuis, France'),
+                  const Localization(location: 'Aix-en-Provence, France'),
                   const SizedBox(height: 30),
                   AnimatedButtonsBar(
                     outerPadding: Constants.paddingMedium,
-                    tabNames: const ["Actions", "Données", "Routines"],
+                    tabNames: const [
+                      "Actions",
+                      "Données", /*"Routines"*/
+                    ],
                     initialTab: state.currentTab,
                     onTabSelected: [
                       () {
@@ -66,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                           );
                         });
                       },
-                      () => print("Routines selected."),
+                      //() => print("Routines selected."),
                     ],
                   ),
                   Padding(

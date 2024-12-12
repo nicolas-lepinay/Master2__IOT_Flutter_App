@@ -51,6 +51,7 @@ dependencies:
   fluttertoast: ^8.2.8
   foundation: ^0.0.5
   flutter_colorpicker: ^1.1.0
+  mobile_scanner: ^6.0.2
 
 dev_dependencies:
   flutter_test:

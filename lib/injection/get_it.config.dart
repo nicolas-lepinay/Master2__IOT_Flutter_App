@@ -18,6 +18,7 @@ import '../repository/users_repository.dart' as _i146;
 import '../services/mqtt_client.dart' as _i226;
 import '../store/equipments_cubit.dart' as _i269;
 import '../store/login_cubit.dart' as _i299;
+import '../store/scanner_cubit.dart' as _i1027;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -30,18 +31,21 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
-    gh.lazySingleton<_i226.MQTT>(() => _i226.MQTT());
     gh.lazySingleton<_i884.EquipmentsDataSource>(
         () => _i884.EquipmentsDataSource());
     gh.lazySingleton<_i606.UsersDataSource>(() => _i606.UsersDataSource());
+    gh.lazySingleton<_i226.MQTT>(() => _i226.MQTT());
     gh.lazySingleton<_i146.UsersRepository>(
         () => _i146.UsersRepository(gh<_i606.UsersDataSource>()));
-    gh.singleton<_i299.LoginCubit>(
+    gh.factory<_i299.LoginCubit>(
         () => _i299.LoginCubit(gh<_i146.UsersRepository>()));
+    gh.factory<_i1027.ScannerCubit>(
+        () => _i1027.ScannerCubit(gh<_i146.UsersRepository>()));
     gh.lazySingleton<_i604.EquipmentsRepository>(
         () => _i604.EquipmentsRepository(gh<_i884.EquipmentsDataSource>()));
     gh.singleton<_i269.EquipmentsCubit>(() => _i269.EquipmentsCubit(
           gh<_i604.EquipmentsRepository>(),
+          gh<_i146.UsersRepository>(),
           gh<_i226.MQTT>(),
         ));
     return this;

@@ -7,9 +7,12 @@ import 'package:arduino_iot_app/widgets/components/buttons/round_avatar_button.d
 class AppBarActions extends StatelessWidget {
   final IMAGE_URL =
       'https://rodrigovarejao.com/wp-content/uploads/2020/03/80abc9bceb94535ef1e24cce7e5efb8e-sticker.png';
-  final WELCOME = 'Bonjour, Nicolas';
+  final String username;
 
-  const AppBarActions({super.key});
+  const AppBarActions({
+    super.key,
+    required this.username,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +27,7 @@ class AppBarActions extends StatelessWidget {
         const SizedBox(width: 10),
         Expanded(
           child: H3(
-            text: WELCOME,
+            text: 'Bonjour, $username',
             textAlign: TextAlign.left,
           ),
         ),

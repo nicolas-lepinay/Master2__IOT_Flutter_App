@@ -2,22 +2,26 @@ import 'package:arduino_iot_app/utils/extensions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:arduino_iot_app/models/schema/equipment.dart';
 import 'package:arduino_iot_app/repository/equipments_repository.dart';
+import 'package:arduino_iot_app/repository/users_repository.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:arduino_iot_app/services/mqtt_client.dart';
 import 'package:arduino_iot_app/models/exceptions/apiException.dart';
 import 'package:arduino_iot_app/utils/toast_helper.dart';
 import 'package:arduino_iot_app/utils/constants.dart';
+import 'package:arduino_iot_app/models/schema/user.dart';
 
 @singleton
 class EquipmentsCubit extends Cubit<EquipmentsState> {
   final EquipmentsRepository repository;
+  final UsersRepository userRepository;
   final MQTT mqtt;
   final _subscriptions = CompositeSubscription();
 
-  EquipmentsCubit(this.repository, this.mqtt)
+  EquipmentsCubit(this.repository, this.userRepository, this.mqtt)
       : super(EquipmentsState.initial()) {
     _subscribe();
+    //emit(state.copyWith(user: userRepository.user));
   }
 
   // Map pour définir quels équipements afficher par onglet
@@ -41,10 +45,17 @@ class EquipmentsCubit extends Cubit<EquipmentsState> {
   };
 
   void _subscribe() {
+    // Equipments
     repository.equipmentsStream.listen((equipments) {
       emit(state.copyWith(equipments: equipments));
       _filterEquipments(state.currentTab);
     }).addTo(_subscriptions);
+
+    // User
+    userRepository.userStream.listen((user) {
+      emit(state.copyWith(user: user));
+    }).addTo(_subscriptions);
+
     emit(state.copyWith(isLoading: false));
   }
 
@@ -144,6 +155,7 @@ class EquipmentsState {
   final bool isLoading;
   final int currentTab;
   final int currentIndex;
+  final User? user;
 
   EquipmentsState({
     required this.equipments,
@@ -151,6 +163,7 @@ class EquipmentsState {
     required this.isLoading,
     required this.currentTab,
     required this.currentIndex,
+    this.user,
   });
 
   factory EquipmentsState.initial() {
@@ -160,6 +173,7 @@ class EquipmentsState {
       isLoading: true,
       currentTab: 0,
       currentIndex: 0,
+      user: null,
     );
   }
 
@@ -169,6 +183,7 @@ class EquipmentsState {
     bool? isLoading,
     int? currentTab,
     int? currentIndex,
+    User? user,
   }) =>
       EquipmentsState(
         equipments: equipments ?? this.equipments,
@@ -176,5 +191,6 @@ class EquipmentsState {
         isLoading: isLoading ?? this.isLoading,
         currentTab: currentTab ?? this.currentTab,
         currentIndex: currentIndex ?? this.currentIndex,
+        user: user ?? this.user,
       );
 }

@@ -2,6 +2,7 @@ import 'package:arduino_iot_app/data_source/users_data_source.dart';
 import 'package:arduino_iot_app/models/schema/user.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:rxdart/rxdart.dart';
 
 @lazySingleton
 class UsersRepository {
@@ -12,11 +13,18 @@ class UsersRepository {
   User? _user;
   User? get user => _user;
 
+  // User
+  final BehaviorSubject<User> _userController = BehaviorSubject<User>();
+
+  // Stream getter
+  Stream<User> get userStream => _userController.stream;
+
   Future<User?> login(String username, String password) async {
     try {
       final user = await dataSource.login(username, password);
       if (user != null) {
         _user = user;
+        _userController.add(user);
       }
       return user;
     } catch (e) {

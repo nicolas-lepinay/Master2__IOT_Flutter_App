@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:arduino_iot_app/injection/get_it.dart';
 
 // Pages
-import 'package:arduino_iot_app/widgets/pages/landing_page.dart';
+import 'package:arduino_iot_app/widgets/pages/login_page.dart';
 import 'package:arduino_iot_app/widgets/pages/home_page.dart';
 import 'package:arduino_iot_app/widgets/pages/details_page.dart';
 import 'package:arduino_iot_app/widgets/pages/qr_code_scanner.dart';
@@ -10,13 +12,22 @@ import 'package:arduino_iot_app/widgets/pages/qr_code_scanner.dart';
 // Models
 import 'package:arduino_iot_app/models/schema/equipment.dart';
 
+// Cubit
+import 'package:arduino_iot_app/store/login_cubit.dart';
+
 // The route configuration.
 final GoRouter router = GoRouter(
   routes: <RouteBase>[
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return LandingPage();
+        return LoginPage();
+        /*
+        return BlocProvider<LoginCubit>(
+          create: (_) => getIt<LoginCubit>(),
+          child: LandingPage(),
+        );
+         */
       },
     ),
     GoRoute(
@@ -35,7 +46,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/qrcode-scanner',
       builder: (BuildContext context, GoRouterState state) {
-        return const QRCodeScanner();
+        return QRCodeScanner();
       },
     ),
   ],

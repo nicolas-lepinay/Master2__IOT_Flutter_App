@@ -27,9 +27,11 @@ void main() {
         BlocProvider<EquipmentsCubit>(
           create: (context) => getIt<EquipmentsCubit>(),
         ),
+        /*
         BlocProvider<LoginCubit>(
           create: (context) => getIt<LoginCubit>(),
         ),
+         */
       ],
       child: const MyApp(),
     ),
