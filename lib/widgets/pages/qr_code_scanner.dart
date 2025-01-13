@@ -6,6 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:arduino_iot_app/utils/constants.dart';
 
+import '../../repository/users_repository.dart';
+
 class QRCodeScanner extends StatelessWidget {
   final MobileScannerController _cameraController = MobileScannerController();
   bool isProcessingScan = false;
@@ -17,7 +19,7 @@ class QRCodeScanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ScannerCubit>(
-      create: (context) => getIt<ScannerCubit>(),
+      create: (context) => ScannerCubit(getIt<UsersRepository>()),
       child: BlocConsumer<ScannerCubit, ScannerState>(
         listenWhen: (previous, current) {
           // Écoute uniquement si users passe de vide à non-vide
@@ -26,9 +28,13 @@ class QRCodeScanner extends StatelessWidget {
         listener: (BuildContext context, ScannerState state) {
           if (state.users.isNotEmpty) {
             debugPrint('************ USERS  FULL ************');
+            context.push(
+              '/users-selection',
+              extra: {'users': state.users},
+            );
           } else {
             debugPrint('------------ USERS  VIDE ------------');
-            context.go('/');
+            context.go('/'); // Retour à la page Login
           }
         },
         builder: (context, state) {

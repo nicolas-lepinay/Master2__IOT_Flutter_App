@@ -131,7 +131,7 @@ class Foreground extends StatelessWidget {
           width: width,
           height: width * ratio,
           padding: const EdgeInsets.symmetric(
-            horizontal: 30,
+            horizontal: 23,
             vertical: 20,
           ),
           decoration: BoxDecoration(
@@ -267,7 +267,7 @@ class DisplayState extends StatelessWidget {
     return Chip(
       label: equipment.state ? const Text('ON') : const Text('OFF'),
       labelStyle: TextStyle(
-        fontSize: 13,
+        fontSize: 11,
         fontWeight: FontWeight.w900,
         color: equipment.state
             ? equipment.colorOn != Constants.tomato
@@ -323,7 +323,7 @@ class DisplayImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       //width: MediaQuery.of(context).size.width / 4,
-      height: MediaQuery.of(context).size.width / 3,
+      height: MediaQuery.of(context).size.width / 3.2,
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.contain,

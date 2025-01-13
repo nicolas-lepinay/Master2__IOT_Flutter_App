@@ -8,12 +8,11 @@ import 'package:arduino_iot_app/widgets/pages/login_page.dart';
 import 'package:arduino_iot_app/widgets/pages/home_page.dart';
 import 'package:arduino_iot_app/widgets/pages/details_page.dart';
 import 'package:arduino_iot_app/widgets/pages/qr_code_scanner.dart';
+import 'package:arduino_iot_app/widgets/pages/users_selection_page.dart';
 
 // Models
 import 'package:arduino_iot_app/models/schema/equipment.dart';
-
-// Cubit
-import 'package:arduino_iot_app/store/login_cubit.dart';
+import 'package:arduino_iot_app/models/schema/user.dart';
 
 // The route configuration.
 final GoRouter router = GoRouter(
@@ -22,12 +21,6 @@ final GoRouter router = GoRouter(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
         return LoginPage();
-        /*
-        return BlocProvider<LoginCubit>(
-          create: (_) => getIt<LoginCubit>(),
-          child: LandingPage(),
-        );
-         */
       },
     ),
     GoRoute(
@@ -49,5 +42,15 @@ final GoRouter router = GoRouter(
         return QRCodeScanner();
       },
     ),
+    GoRoute(
+      path: '/users-selection',
+      builder: (BuildContext context, GoRouterState state) {
+        /*
+        final extraMap = state.extra as Map<String, dynamic>; // Cast to Map
+        final users = extraMap['users'] as List<User>;
+        */
+        return const UsersSelectionPage();
+      },
+    )
   ],
 );

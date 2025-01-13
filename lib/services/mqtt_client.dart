@@ -34,14 +34,12 @@ class MQTT {
         debugPrint('MQTT client connected successfully');
         // S'abonner aux topics
         mqttClient.subscribe('SET/#', MqttQos.atLeastOnce);
-        //mqttClient.subscribe('KEVIN/+/value', MqttQos.atLeastOnce);
 
         mqttClient.updates!.listen((List<MqttReceivedMessage<MqttMessage>> c) {
           final MqttPublishMessage message = c[0].payload as MqttPublishMessage;
           final payload =
               MqttPublishPayload.bytesToStringAsString(message.payload.message);
           debugPrint('Received message: $payload from topic: ${c[0].topic}');
-          // Vous pouvez mettre à jour l'état des équipements ici
         });
       } else {
         debugPrint('MQTT client connection failed');

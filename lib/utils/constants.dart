@@ -5,10 +5,15 @@ class Constants {
   // ASSET IMAGES
   static const String heroImg = "assets/images/girl_on_couch.png";
   static const String spline = "assets/images/spline.png";
+  static const String nicolasAvatar = "assets/avatars/nicolas_avatar.png";
+  static const String kevinAvatar = "assets/avatars/kevin_avatar.png";
+  static const String quentinAvatar = "assets/avatars/quentin_avatar.png";
+  static const String unknownAvatar = "assets/avatars/ghost_avatar.png";
 
   // ASSET ICONS
   static const String searchIcon = "assets/icons/search-icon.webp";
   static const String notificationsIcon = "assets/icons/notifications-icon.png";
+  static const String offIcon = "assets/icons/off-icon.png";
 
   // COLOURS
   // ---- GREYS
@@ -44,4 +49,5 @@ class Constants {
   static const String home__subtitle = "Mes équipements";
   static const String login = "Connexion";
   static const String loginWithQrCode = "Se connecter avec un QR Code";
+  static const String users_selection_title = "Choix d'un utilisateur";
 }

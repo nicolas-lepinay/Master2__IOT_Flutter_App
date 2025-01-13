@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppBarActions(username: state.user?.username ?? 'toi !'),
+                  AppBarActions(user: state.user),
                   const SizedBox(height: 30),
                   const H2(text: Constants.home__title),
                   const SizedBox(height: 5),

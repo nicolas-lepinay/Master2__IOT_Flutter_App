@@ -3,25 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:arduino_iot_app/models/schema/user.dart';
 import 'package:arduino_iot_app/repository/users_repository.dart';
 import 'package:injectable/injectable.dart';
-import 'package:rxdart/rxdart.dart';
 
 @injectable
 class LoginCubit extends Cubit<LoginState> {
   final UsersRepository userRepository;
-  //final _subscriptions = CompositeSubscription();
 
   LoginCubit(this.userRepository) : super(LoginState.initial()) {
-    _subscribe();
-    debugPrint("CONSTRUCTOR");
-  }
-
-  void _subscribe() {
-    debugPrint("SUBSCRIBE");
-    /*
-    userRepository.userStream.listen((user) {
-      emit(state.copyWith(user: user));
-    }).addTo(_subscriptions);
-     */
+    debugPrint("LOGIN CUBIT - CONSTRUCTOR");
   }
 
   Future<void> login(String username, String password) async {
@@ -58,7 +46,6 @@ class LoginCubit extends Cubit<LoginState> {
   @override
   Future<void> close() {
     //_subscriptions.dispose();
-    //emit(LoginState.initial()); // Réinitialise le state avant fermeture
     return super.close();
   }
 }

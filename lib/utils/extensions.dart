@@ -1,7 +1,22 @@
 import 'package:arduino_iot_app/models/schema/equipment.dart';
+import 'package:arduino_iot_app/models/schema/user.dart';
 import 'package:flutter/material.dart';
-
 import 'constants.dart';
+
+extension UserExtension on User {
+  String get avatar {
+    switch (username) {
+      case 'Nicolas':
+        return Constants.nicolasAvatar;
+      case 'Quentin':
+        return Constants.quentinAvatar;
+      case 'Kevin':
+        return Constants.kevinAvatar;
+      default:
+        return Constants.unknownAvatar;
+    }
+  }
+}
 
 extension EquipmentExtension on Equipment {
   EquipmentAsset get equipmentAsset {

@@ -21,7 +21,6 @@ class EquipmentsCubit extends Cubit<EquipmentsState> {
   EquipmentsCubit(this.repository, this.userRepository, this.mqtt)
       : super(EquipmentsState.initial()) {
     _subscribe();
-    //emit(state.copyWith(user: userRepository.user));
   }
 
   // Map pour définir quels équipements afficher par onglet
@@ -139,6 +138,10 @@ class EquipmentsCubit extends Cubit<EquipmentsState> {
     final updatedEquipment = equipment.copyWith(value: value);
     _updateEquipment(oldItem: equipment, newItem: updatedEquipment);
     _toastSuccess("L'équipement a été mis à jour.");
+  }
+
+  void logout() {
+    userRepository.logout();
   }
 
   // A la fermeture du cubit, annuler les abonnements aux streams

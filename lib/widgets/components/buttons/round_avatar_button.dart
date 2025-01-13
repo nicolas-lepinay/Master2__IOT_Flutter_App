@@ -20,8 +20,7 @@ class RoundAvatarButton extends StatelessWidget {
       backgroundColor: Constants.lightest,
       radius: radius,
       child: CircleAvatar(
-        backgroundImage: NetworkImage(avatar),
-        //backgroundColor: Constants.lightestGrey,
+        backgroundImage: AssetImage(avatar),
         backgroundColor: Constants.lightest,
         radius: radius - 1,
       ),

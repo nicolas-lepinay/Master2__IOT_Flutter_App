@@ -1,17 +1,21 @@
+import 'package:arduino_iot_app/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:arduino_iot_app/utils/constants.dart';
 import 'package:arduino_iot_app/widgets/components/typography/h3.dart';
 import 'package:arduino_iot_app/widgets/components/buttons/round_icon_button.dart';
 import 'package:arduino_iot_app/widgets/components/buttons/round_avatar_button.dart';
+import 'package:arduino_iot_app/models/schema/user.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../store/equipments_cubit.dart';
 
 class AppBarActions extends StatelessWidget {
-  final IMAGE_URL =
-      'https://rodrigovarejao.com/wp-content/uploads/2020/03/80abc9bceb94535ef1e24cce7e5efb8e-sticker.png';
-  final String username;
+  final User? user;
 
   const AppBarActions({
     super.key,
-    required this.username,
+    this.user,
   });
 
   @override
@@ -21,24 +25,29 @@ class AppBarActions extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         RoundAvatarButton(
-          avatar: IMAGE_URL,
+          avatar: user?.avatar ?? '',
           callback: () {},
         ),
         const SizedBox(width: 10),
         Expanded(
           child: H3(
-            text: 'Bonjour, $username',
+            text: 'Bonjour, ${user?.username}',
             textAlign: TextAlign.left,
           ),
         ),
+        /*
         RoundIconButton(
           icon: Constants.searchIcon,
           callback: () {},
         ),
-        const SizedBox(width: 10),
+         */
+        const SizedBox(width: 20),
         RoundIconButton(
-          icon: Constants.notificationsIcon,
-          callback: () {},
+          icon: Constants.offIcon,
+          callback: () {
+            context.read<EquipmentsCubit>().logout();
+            context.go('/');
+          },
         ),
       ],
     );

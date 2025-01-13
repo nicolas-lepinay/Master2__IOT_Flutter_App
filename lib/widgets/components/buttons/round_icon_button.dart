@@ -36,8 +36,8 @@ class RoundIconButton extends StatelessWidget {
         ),
         child: Image.asset(
           icon,
-          width: radius + (radius / 10), // Largeur de l'image
-          height: radius + (radius / 10), // Hauteur de l'image
+          width: radius / 1.1, // Largeur de l'image
+          height: radius / 1.1, // Hauteur de l'image
         ),
       ),
     );

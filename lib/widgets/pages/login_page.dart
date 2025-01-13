@@ -8,6 +8,7 @@ import 'package:arduino_iot_app/store/login_cubit.dart';
 import 'package:arduino_iot_app/injection/get_it.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:arduino_iot_app/repository/users_repository.dart';
 
 class LoginPage extends StatelessWidget {
   final TextEditingController usernameController = TextEditingController();
@@ -18,7 +19,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<LoginCubit>(
-      create: (context) => getIt<LoginCubit>(),
+      create: (context) => LoginCubit(getIt<UsersRepository>()),
       child: BlocConsumer<LoginCubit, LoginState>(listener: (context, state) {
         if (state.user != null) {
           context.go('/home');
@@ -69,7 +70,6 @@ class LoginPage extends StatelessWidget {
                           label: Constants.login,
                           isLoading: state.isLoading,
                           callback: () {
-                            //context.push('/home');
                             context.read<LoginCubit>().login(
                                   usernameController.text,
                                   passwordController.text,

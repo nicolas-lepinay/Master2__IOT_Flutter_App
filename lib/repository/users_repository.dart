@@ -10,14 +10,19 @@ class UsersRepository {
 
   UsersRepository(this.dataSource);
 
+  // Logged-in user
   User? _user;
   User? get user => _user;
+  final BehaviorSubject<User?> _userController = BehaviorSubject<User?>();
 
-  // User
-  final BehaviorSubject<User> _userController = BehaviorSubject<User>();
+  // House Users
+  final List<User> _houseUsers = [];
+  List<User> get houseUsers => _houseUsers;
+  //final BehaviorSubject<List<User>> _houseUsersController = BehaviorSubject<List<User>>();
 
-  // Stream getter
-  Stream<User> get userStream => _userController.stream;
+  // Stream getters
+  Stream<User?> get userStream => _userController.stream;
+  //Stream<List<User>> get houseUsersStream => _houseUsersController.stream;
 
   Future<User?> login(String username, String password) async {
     try {
@@ -32,9 +37,25 @@ class UsersRepository {
     }
   }
 
+  void autoLogin(User user) async {
+    _user = user;
+    _userController.add(user);
+  }
+
+  void logout() {
+    _user = null;
+    _userController.add(null);
+  }
+
   Future<List<User>> getUsersByHouse(String houseId) async {
     try {
-      return await dataSource.getUsersByHouse(houseId);
+      final users = await dataSource.getUsersByHouse(houseId);
+      if (users.isNotEmpty) {
+        _houseUsers.clear();
+        _houseUsers.addAll(users);
+        //_houseUsersController.addAll(users);
+      }
+      return users;
     } catch (e) {
       rethrow;
     }

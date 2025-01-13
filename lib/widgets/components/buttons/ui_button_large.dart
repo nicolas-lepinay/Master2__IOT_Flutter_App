@@ -7,6 +7,7 @@ class UIButtonLarge extends StatelessWidget {
   final Color color;
   final VoidCallback callback;
   final bool isLoading;
+  final bool isDisabled;
 
   const UIButtonLarge({
     super.key,
@@ -14,6 +15,7 @@ class UIButtonLarge extends StatelessWidget {
     this.color = Constants.tomato,
     required this.callback,
     this.isLoading = false,
+    this.isDisabled = false,
   });
 
   @override
@@ -30,7 +32,7 @@ class UIButtonLarge extends StatelessWidget {
         elevation: 10,
         shadowColor: color.withOpacity(0.5), // Couleur de l'ombre
       ),
-      onPressed: callback,
+      onPressed: isDisabled ? null : callback,
       child: isLoading
           ? const SizedBox(
               height: 18,

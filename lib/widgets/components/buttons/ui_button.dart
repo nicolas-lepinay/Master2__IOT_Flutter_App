@@ -9,6 +9,7 @@ class UIButton extends StatelessWidget {
   final Color color;
   final VoidCallback callback;
   final bool isLoading;
+  final bool isDisabled;
 
   const UIButton({
     super.key,
@@ -17,6 +18,7 @@ class UIButton extends StatelessWidget {
     this.color = Constants.tomato,
     required this.callback,
     this.isLoading = false,
+    this.isDisabled = false,
   });
 
   @override
@@ -27,12 +29,14 @@ class UIButton extends StatelessWidget {
             color: color,
             callback: callback,
             isLoading: isLoading,
+            isDisabled: isDisabled,
           )
         : UIButtonLarge(
             label: label,
             color: color,
             callback: callback,
             isLoading: isLoading,
+            isDisabled: isDisabled,
           );
   }
 }
